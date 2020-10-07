@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ingredient : MonoBehaviour
 {
     public float percentageGrade = 0f;
+    public Sprite finishedImage;
     // Start is called before the first frame update
     void Start()
     {

@@ -29,58 +29,61 @@ public class LiquidSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (update)
+        if (!OverallManager.paused)
         {
-            if (anvilObj.transform.position.y - anvilCollider.bounds.extents.y > ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y)
+            if (update)
             {
-                Vector3 newPosition = anvilObj.transform.position;
-                newPosition.y -= Time.deltaTime / 2;
-                if (Input.GetKey(KeyCode.A))
+                if (anvilObj.transform.position.y - anvilCollider.bounds.extents.y > ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y)
                 {
-                    xAccel -= Time.deltaTime / 4;
-                }
-                if (Input.GetKey(KeyCode.D))
-                {
-                    xAccel += Time.deltaTime / 4;
-                }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    newPosition.y -= Time.deltaTime * 2;
-                }
-                newPosition.x += xAccel;
-                if (newPosition.x + anvilCollider.bounds.extents.x > 9.0f)
-                {
-                    newPosition.x = 9.0f - anvilCollider.bounds.extents.x;
-                }
-                else if (newPosition.x - anvilCollider.bounds.extents.x < -9.0f)
-                {
-                    newPosition.x = -9.0f + anvilCollider.bounds.extents.x;
-                }
-                anvilObj.transform.position = newPosition;
-                xAccel *= .995f;
-            }
-            else
-            {
-                anvilObj.transform.position = new Vector3(anvilObj.transform.position.x, ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y + anvilCollider.bounds.extents.y, anvilObj.transform.position.z);
-                float dist = ingredientCollider.bounds.extents.x + anvilCollider.bounds.extents.x;
-                ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x - dist) / dist;
-                if (ingredientObj.percentageGrade > 1f)
-                {
-                    if (ingredientObj.percentageGrade >= 2f)
+                    Vector3 newPosition = anvilObj.transform.position;
+                    newPosition.y -= Time.deltaTime / 2;
+                    if (Input.GetKey(KeyCode.A))
                     {
-                        ingredientObj.percentageGrade = 0f;
+                        xAccel -= Time.deltaTime / 4;
                     }
-                    else
+                    if (Input.GetKey(KeyCode.D))
                     {
-                        ingredientObj.percentageGrade = 2f - ingredientObj.percentageGrade;
+                        xAccel += Time.deltaTime / 4;
                     }
+                    if (Input.GetKey(KeyCode.S))
+                    {
+                        newPosition.y -= Time.deltaTime * 2;
+                    }
+                    newPosition.x += xAccel;
+                    if (newPosition.x + anvilCollider.bounds.extents.x > 9.0f)
+                    {
+                        newPosition.x = 9.0f - anvilCollider.bounds.extents.x;
+                    }
+                    else if (newPosition.x - anvilCollider.bounds.extents.x < -9.0f)
+                    {
+                        newPosition.x = -9.0f + anvilCollider.bounds.extents.x;
+                    }
+                    anvilObj.transform.position = newPosition;
+                    xAccel *= .995f;
                 }
-                scoreText.enabled = true;
-                scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
-                ingredientObj.transform.position = Vector3.zero;
-                ingredientObj.GetComponent<SpriteRenderer>().sprite = ingredient.finishedImage;
-                AudioSource.PlayClipAtPoint(splat, transform.position);
-                update = false;
+                else
+                {
+                    anvilObj.transform.position = new Vector3(anvilObj.transform.position.x, ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y + anvilCollider.bounds.extents.y, anvilObj.transform.position.z);
+                    float dist = ingredientCollider.bounds.extents.x + anvilCollider.bounds.extents.x;
+                    ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x - dist) / dist;
+                    if (ingredientObj.percentageGrade > 1f)
+                    {
+                        if (ingredientObj.percentageGrade >= 2f)
+                        {
+                            ingredientObj.percentageGrade = 0f;
+                        }
+                        else
+                        {
+                            ingredientObj.percentageGrade = 2f - ingredientObj.percentageGrade;
+                        }
+                    }
+                    scoreText.enabled = true;
+                    scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
+                    ingredientObj.transform.position = Vector3.zero;
+                    ingredientObj.GetComponent<SpriteRenderer>().sprite = ingredient.finishedImage;
+                    AudioSource.PlayClipAtPoint(splat, transform.position);
+                    update = false;
+                }
             }
         }
     }

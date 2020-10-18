@@ -12,52 +12,52 @@ public class DustIngredient : Ingredient
 
 	public Color dustColor;
 	public SpriteRenderer s_renderer;
-	public GameObject marker;
+	public ParticleSystem ps;
+	public Marker marker;
+	public Marker tempMarker;
 	public float height;
 	public float width;
-	private List<Vector3> points;
+	public List<Marker> points;
 	public Vector3 mouseClickPos;
-	private Vector3 tempPoint;
 	private float minDistance;
 	private float tempDistance;
 
 	public float distance;
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	void Start()
+	{
 		height = s_renderer.bounds.size.y;
 		width = s_renderer.bounds.size.x;
 		minDistance = float.MaxValue;
-		points = new List<Vector3>();
+		points = new List<Marker>();
 
-		points.Add(new Vector3(gameObject.transform.position.x - width / 4, gameObject.transform.position.y + height / 4,-1));
-		points.Add(new Vector3(gameObject.transform.position.x + width / 4, gameObject.transform.position.y + height / 4,-1));
-		points.Add(new Vector3(gameObject.transform.position.x - width / 4, gameObject.transform.position.y - height / 4,-1));
-		points.Add(new Vector3(gameObject.transform.position.x + width / 4, gameObject.transform.position.y - height / 4,-1));
-		points.Add(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1));
-
-		foreach (Vector3 point in points) {
-			Instantiate(marker, point, Quaternion.identity);
-		}
+		points.Add(Instantiate(marker, new Vector3(gameObject.transform.position.x - width / 4, gameObject.transform.position.y + height / 4, -1), Quaternion.identity));
+		points.Add(Instantiate(marker, new Vector3(gameObject.transform.position.x + width / 4, gameObject.transform.position.y + height / 4, -1), Quaternion.identity));
+		points.Add(Instantiate(marker, new Vector3(gameObject.transform.position.x - width / 4, gameObject.transform.position.y - height / 4, -1), Quaternion.identity));
+		points.Add(Instantiate(marker, new Vector3(gameObject.transform.position.x + width / 4, gameObject.transform.position.y - height / 4, -1), Quaternion.identity));
+		points.Add(Instantiate(marker, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1), Quaternion.identity));
 	}
 
 	// Update is called once per frame
 	void Update()
-    {
-		if (clickCounter<MAX_CLICKS && Input.GetMouseButtonDown(0)) {
+	{
+		if (clickCounter < MAX_CLICKS && Input.GetMouseButtonDown(0))
+		{
 			mouseClickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			ps.transform.position = mouseClickPos;
+			ps.Play();
 			clickCounter++;
 			minDistance = float.MaxValue;
 
-			foreach (Vector3 point in points) {
-				tempDistance = Vector2.Distance(mouseClickPos, point);
-				if (tempDistance < minDistance) {
+			foreach (Marker point in points)
+			{
+				tempDistance = Vector2.Distance(mouseClickPos, point.transform.position);
+				if (tempDistance < minDistance)
+				{
 					minDistance = tempDistance;
-					tempPoint = point;
+					tempMarker = point;
 				}
 			}
-			tempPoint.z = 10;
-
 			distance = minDistance;
 
 			//add the score
@@ -69,8 +69,9 @@ public class DustIngredient : Ingredient
 			else if (minDistance < 3.0f) score += 50;
 			else score += 0;
 
-			points.Remove(tempPoint);
+			points.Remove(tempMarker);
+			tempMarker.gameObject.SetActive(false);
 
 		}
-    }
+	}
 }

@@ -761,6 +761,17 @@ MonoBehaviour:
   potionScore: 0
   finalScore: 0
   curPotion: 0
+  lightMinigame: {fileID: 5427174614027030677, guid: fafc55170ac12ee4db7577cb2d519909,
+    type: 3}
+  dustMinigame: {fileID: 7423767902332601000, guid: 4c32b0182f7fd8542aa55f8201caa5c0,
+    type: 3}
+  solidMinigame: {fileID: 0}
+  liquidMinigame: {fileID: 885980133973637829, guid: e4901299b332ad646989d802408c4e98,
+    type: 3}
+  plantMinigame: {fileID: 0}
+  mixingMinigame: {fileID: 6712921140589264178, guid: 7ae12cad227d39a4299f8ac65fbb0047,
+    type: 3}
+  state: 0
 --- !u!4 &1591889817
 Transform:
   m_ObjectHideFlags: 0

@@ -5,12 +5,12 @@ using UnityEngine;
 public class OverallManager : MonoBehaviour
 {
     public Recipe recipe;
-    public Ingredients[] ingredients; //Needs three
     public float stageOneScore; //Update from stage one
     public float potionScore; //The final score for the current potion
     public float finalScore; //The finals score after all the potions
     public int curPotion; //0-2
     public static bool paused;
+    public List<Ingredient> inputIngredients; //To be added externally
 
 	public GameObject lightMinigame;
 	public GameObject dustMinigame;
@@ -48,6 +48,7 @@ public class OverallManager : MonoBehaviour
 		dustMinigame.SetActive(false);
 		liquidMinigame.SetActive(false);
 		mixingMinigame.SetActive(false);
+        recipe.FillRecipe();
 	}
 
     // Update is called once per frame

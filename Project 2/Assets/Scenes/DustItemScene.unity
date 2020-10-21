@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 7423767902332601000, guid: 4c32b0182f7fd8542aa55f8201caa5c0,
         type: 3}
       propertyPath: m_Name
-      value: DustScene
+      value: Dust
       objectReference: {fileID: 0}
     - target: {fileID: 7423767902332601007, guid: 4c32b0182f7fd8542aa55f8201caa5c0,
         type: 3}

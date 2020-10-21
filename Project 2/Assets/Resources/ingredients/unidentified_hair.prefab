@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1756605868680511611}
   - component: {fileID: 2188397396749924059}
+  - component: {fileID: -1210460889270255016}
   m_Layer: 0
   m_Name: unidentified_hair
   m_TagString: Untagged
@@ -81,3 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-1210460889270255016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7714396153851252179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f093db17f4a761a4c91e2c744a2d8d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 23
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: d903485e3407efc4bb0e88920989522e, type: 3}

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 159132531937016639}
   - component: {fileID: 3652116236413342690}
+  - component: {fileID: -8676811072196003590}
   m_Layer: 0
   m_Name: bee_hive
   m_TagString: Untagged
@@ -81,3 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-8676811072196003590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568490969347502659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13d00d93465698499ff26dddc09c140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: 22a3afaf98ab88749abaa342a61851e4, type: 3}

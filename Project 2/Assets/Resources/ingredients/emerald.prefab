@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9133720018940913694}
   - component: {fileID: 3814902049326545821}
+  - component: {fileID: 1205344547931616021}
   m_Layer: 0
   m_Name: emerald
   m_TagString: Untagged
@@ -81,3 +82,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1205344547931616021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3642863077080838802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e2e8e31d44bfc4282094c9d448a1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 7
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: 1097e06fcfad4e24ab95b7a8fe0c60c5, type: 3}
+  score: 0
+  clickCounter: 0
+  dustColor: {r: 0, g: 0, b: 0, a: 0}
+  s_renderer: {fileID: 0}
+  ps: {fileID: 0}
+  marker: {fileID: 0}
+  tempMarker: {fileID: 0}
+  height: 0
+  width: 0
+  points: []
+  mouseClickPos: {x: 0, y: 0, z: 0}
+  distance: 0

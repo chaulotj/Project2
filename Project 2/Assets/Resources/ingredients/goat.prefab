@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3333011462559591688}
   - component: {fileID: 1714458891280105036}
+  - component: {fileID: -2200634151048718279}
   m_Layer: 0
   m_Name: goat
   m_TagString: Untagged
@@ -81,3 +82,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-2200634151048718279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333610952589792278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e2e8e31d44bfc4282094c9d448a1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 9
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: d23f29ec0e9ebbf4d8eb05ece94e7c93, type: 3}
+  score: 0
+  clickCounter: 0
+  dustColor: {r: 0, g: 0, b: 0, a: 0}
+  s_renderer: {fileID: 0}
+  ps: {fileID: 0}
+  marker: {fileID: 0}
+  tempMarker: {fileID: 0}
+  height: 0
+  width: 0
+  points: []
+  mouseClickPos: {x: 0, y: 0, z: 0}
+  distance: 0

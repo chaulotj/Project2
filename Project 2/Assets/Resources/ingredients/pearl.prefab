@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7286037214939441363}
   - component: {fileID: 6680886352842360531}
+  - component: {fileID: 5527759756582338175}
   m_Layer: 0
   m_Name: pearl
   m_TagString: Untagged
@@ -81,3 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5527759756582338175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2869214071733776769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a493e1cf0725e1a47a8255280f3d6d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 15
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: 70dd94d2654283d45b2f7fd9b40fa04e, type: 3}

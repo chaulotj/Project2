@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 114570436860663269}
   - component: {fileID: 7094806442411818170}
+  - component: {fileID: 5848089895845192286}
   m_Layer: 0
   m_Name: unicorn_horn
   m_TagString: Untagged
@@ -81,3 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5848089895845192286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520551274016287232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a493e1cf0725e1a47a8255280f3d6d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 22
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: d37fbc3d9fb08b24abef23038a979244, type: 3}

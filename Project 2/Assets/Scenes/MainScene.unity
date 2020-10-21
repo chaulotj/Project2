@@ -738,6 +738,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802922836}
   m_CullTransparentMesh: 0
+--- !u!1 &899813603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 899813604}
+  m_Layer: 0
+  m_Name: ActiveMinigame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &899813604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 899813603}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &913529901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,25 +1111,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipe: {fileID: 1245474046060870421, guid: a92c5205ba85bbe41b1419f423ce69c5, type: 3}
-  ingredients:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   stageOneScore: 0
   potionScore: 0
   finalScore: 0
   curPotion: 0
+  inputIngredients: []
   lightMinigame: {fileID: 5427174614027030677, guid: fafc55170ac12ee4db7577cb2d519909,
     type: 3}
   dustMinigame: {fileID: 7423767902332601000, guid: 4c32b0182f7fd8542aa55f8201caa5c0,
     type: 3}
-  solidMinigame: {fileID: 0}
+  solidMinigame: {fileID: 1865425883392916556, guid: 2336f451a82d29a4f9f7dbe898384016,
+    type: 3}
   liquidMinigame: {fileID: 885980133973637829, guid: e4901299b332ad646989d802408c4e98,
     type: 3}
-  plantMinigame: {fileID: 0}
+  plantMinigame: {fileID: 7854105654230564401, guid: 8aef38ae4c6e6734f9d30c438e3ac4ba,
+    type: 3}
   mixingMinigame: {fileID: 6712921140589264178, guid: 7ae12cad227d39a4299f8ac65fbb0047,
     type: 3}
   trackerArrow: {fileID: 314754663}
+  activeMinigame: {fileID: 899813604}
   state: 0
 --- !u!4 &1591889817
 Transform:

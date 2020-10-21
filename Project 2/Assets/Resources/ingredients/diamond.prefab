@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6367419859285563445}
   - component: {fileID: 3518531780271773545}
+  - component: {fileID: -3291830442642106091}
   m_Layer: 0
   m_Name: diamond
   m_TagString: Untagged
@@ -81,3 +82,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3291830442642106091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914450482805176392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e2e8e31d44bfc4282094c9d448a1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: 89542bdf44e03a94385f96899f6dfa44, type: 3}
+  score: 0
+  clickCounter: 0
+  dustColor: {r: 0, g: 0, b: 0, a: 0}
+  s_renderer: {fileID: 0}
+  ps: {fileID: 0}
+  marker: {fileID: 0}
+  tempMarker: {fileID: 0}
+  height: 0
+  width: 0
+  points: []
+  mouseClickPos: {x: 0, y: 0, z: 0}
+  distance: 0

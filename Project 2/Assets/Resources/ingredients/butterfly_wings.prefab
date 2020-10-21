@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4889424809752615649}
   - component: {fileID: 612466372291292362}
+  - component: {fileID: -3199975546881363505}
   m_Layer: 0
   m_Name: butterfly_wings
   m_TagString: Untagged
@@ -81,3 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3199975546881363505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576851617341556392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f093db17f4a761a4c91e2c744a2d8d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  percentageGrade: 0
+  finishedImage: {fileID: 21300000, guid: 08d8237bffb2fd5469d05f031ffcb75e, type: 3}

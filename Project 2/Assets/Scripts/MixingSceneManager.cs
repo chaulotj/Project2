@@ -35,7 +35,7 @@ public class MixingSceneManager : MonoBehaviour
         doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity) as GameObject;
         for (int c = 0; c < 3; c++)
         {
-            ingredientObjs[c] = Instantiate(manager.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity) as Ingredient;
+            //ingredientObjs[c] = Instantiate(manager.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity) as Ingredient;
         }
         stirringDoneAmount = 0f;
         lastPos = new Vector2(10000, 10000);

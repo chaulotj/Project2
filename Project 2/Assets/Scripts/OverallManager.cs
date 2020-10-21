@@ -38,6 +38,12 @@ public class OverallManager : MonoBehaviour
 		S_Mouse, S_Dragon, S_Unicorn, S_Mizagar, S_Quail,
 		P_Thyme, P_Sage, P_Rosemary, P_FlyTrap, P_Dandelion
 	};
+
+	public Ingredients[] GetIngredients
+	{
+		get { return ingredients; }
+	}
+
 	float randomIngredient;
 	// Start is called before the first frame update
 	void Start()

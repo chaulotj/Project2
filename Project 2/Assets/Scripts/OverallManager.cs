@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OverallManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class OverallManager : MonoBehaviour
 	public GameObject liquidMinigame;
 	public GameObject plantMinigame;
 	public GameObject mixingMinigame;
-
+	public Image trackerArrow;
 
 	public enum MiniGameState {None, Minigame1,Minigame2, Minigame3, MixingGame, }
 	public MiniGameState state;
@@ -38,12 +39,19 @@ public class OverallManager : MonoBehaviour
 		S_Mouse, S_Dragon, S_Unicorn, S_Mizagar, S_Quail,
 		P_Thyme, P_Sage, P_Rosemary, P_FlyTrap, P_Dandelion
 	};
+
+	public Ingredient[] GetIngredients
+	{
+		get { return ingredients; }
+	}
+
 	float randomIngredient;
 	// Start is called before the first frame update
 	void Start()
     {
         curPotion = 0;
-        paused = false;
+		paused = false;	
+
 		lightMinigame.SetActive(false);
 		dustMinigame.SetActive(false);
 		liquidMinigame.SetActive(false);
@@ -69,13 +77,15 @@ public class OverallManager : MonoBehaviour
         {
             Time.timeScale = 1;
             GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
+			GameObject.Find("UI").GetComponent<Canvas>().enabled = true;
         }
         else
         {
             Time.timeScale = 0;
             GameObject.Find("Canvas").GetComponent<Canvas>().enabled = true;
-        }
-        paused = !paused;
+			GameObject.Find("UI").GetComponent<Canvas>().enabled = false;
+		}
+		paused = !paused;
     }
 
 	void checkGameState() {
@@ -89,35 +99,38 @@ public class OverallManager : MonoBehaviour
 	void playMinigame() {
 		switch (state) {
 			case MiniGameState.Minigame1:
-				Debug.Log(1);
+				//Debug.Log(1);
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
 				lightMinigame.SetActive(true);
 				dustMinigame.SetActive(false);
 				liquidMinigame.SetActive(false);
 				mixingMinigame.SetActive(false);
 				break;
 			case MiniGameState.Minigame2:
-				Debug.Log(2);
+				//Debug.Log(2);
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
 				lightMinigame.SetActive(false);
 				dustMinigame.SetActive(true);
 				liquidMinigame.SetActive(false);
 				mixingMinigame.SetActive(false);
 				break;
 			case MiniGameState.Minigame3:
-				Debug.Log(3);
+				//Debug.Log(3);
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
 				lightMinigame.SetActive(false);
 				dustMinigame.SetActive(false);
 				liquidMinigame.SetActive(true);
 				mixingMinigame.SetActive(false);
 				break;
 			case MiniGameState.MixingGame:
-				Debug.Log(4);
+				//Debug.Log(4);
 				lightMinigame.SetActive(false);
 				dustMinigame.SetActive(false);
 				liquidMinigame.SetActive(false);
 				mixingMinigame.SetActive(true);
 				break;
 			default:
-				Debug.Log(0);
+				//Debug.Log(0);
 				lightMinigame.SetActive(false);
 				dustMinigame.SetActive(false);
 				liquidMinigame.SetActive(false);
@@ -126,11 +139,11 @@ public class OverallManager : MonoBehaviour
 		}
 	}
 
-	void getRandomIngredients()
-	{
-		ingredients[0] = (Ingredients)Random.Range(0, 25);
-		ingredients[1] = (Ingredients)Random.Range(0, 25);
-		ingredients[2] = (Ingredients)Random.Range(0, 25);
+	//void getRandomIngredients()
+	//{
+	//	ingredients[0] = (Ingredients)Random.Range(0, 25);
+	//	ingredients[1] = (Ingredients)Random.Range(0, 25);
+	//	ingredients[2] = (Ingredients)Random.Range(0, 25);
 
-	}
+	//}
 }

@@ -57,6 +57,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\ButtonManager.cs" />
      <Compile Include="Assets\Scripts\DustIngredient.cs" />
+     <Compile Include="Assets\Scripts\HerbSceneManager.cs" />
      <Compile Include="Assets\Scripts\Ingredient.cs" />
      <Compile Include="Assets\Scripts\LightIngredient.cs" />
      <Compile Include="Assets\Scripts\LightSceneManager.cs" />

@@ -229,26 +229,30 @@ public class HerbSceneManager : MonoBehaviour
     private float CalculateGrade()
     {
         // Local Variables
-        float finalGrade = 100;     // Final grade of the mini game
-        float gradeDifference = 0;  // The sum of the distances
-        float playerPosSum = 0;     // The players lines positions added together
-        float gamePosSum = 0;       // The games lines positions added together
+        // floats
+        float finalGrade = 100;         // Final grade of the mini game
+        float gradeSum = 0;             // The sum of the distances
+        float[] grades = new float[4];  // All the grades
 
-        // Adds up all the positons for the game and player
-        for (int i = 0; i < playerCutSpots.Count; i++)
+        // integers
+        int[] usedPlayerIndicies = { -1, -1, -1, -1 };  // Keep track of which indicies got used
+        int[] usedGameIndicies = { -1, -1, -1, -1 };    // Keep track of which indicies got used
+        int iterations = 0;                             // How many times CalculateDistance will be called
+
+        // Calculate the distances
+       CalculateDistance(usedPlayerIndicies, usedGameIndicies, grades, iterations);
+
+        // Add the distances together
+        for (int i = 0; i < grades.Length; i++)
         {
-            playerPosSum += playerCutSpots[i].transform.position.x + (xBounds / 2);
-            gamePosSum += gameCutSpots[i].transform.position.x + (xBounds / 2);
+            gradeSum += grades[i];
         }
-
-        // Calculates the difference
-        gradeDifference = Mathf.Abs(playerPosSum - gamePosSum);
 
         // If the distance is greater then the minimum amout to get 100%
         // Calculates the grade to subtract assuming at least line was clicked
-        if (gradeDifference > 0.5f && counter != 0)
+        if (gradeSum > 0.5f && counter != 0)
         {
-            finalGrade = finalGrade - ((100 / (-3 * gradeDifference + 0.5f)) + (25 * counter));
+            finalGrade = finalGrade - ((100 / (-3 * gradeSum + 0.5f)) + (25 * counter));
         }
 
         // Subtracts any missed lines from the total
@@ -261,5 +265,51 @@ public class HerbSceneManager : MonoBehaviour
             finalGrade = 0;
 
         return finalGrade;
+    }
+
+    /// <summary>
+    /// Calculates the shortest (optimal) distances betweem the indicies
+    /// </summary>
+    /// <param name="usedPlayerIndicies">The index of the used player lines</param>
+    /// <param name="usedGameIndicies">The index of the used game lines</param>
+    /// <param name="grades">each grade per a line</param>
+    /// <param name="iterations">number of times this method will be called</param>
+    private void CalculateDistance(int[] usedPlayerIndicies, int[] usedGameIndicies, float[] grades, int iterations)
+    {
+        int indexP = 0;     // Index of lowest value player line
+        int indexG = 0;     // Index of lowest value game line
+
+        float lowestValue = 100;    // Tracks the lowest value
+
+        for (int i = 0; i < playerCutSpots.Count; i++)
+        {
+            for (int j = 0; j < playerCutSpots.Count; j++)
+            {
+                // Calculated the distance
+                float distance = Mathf.Abs(playerCutSpots[i].transform.position.x + (xBounds / 2) - (gameCutSpots[j].transform.position.x + (xBounds / 2)));
+
+                // Finds the lowest value distance foe the remaining indicies
+                if (distance < lowestValue &&
+                    i != usedPlayerIndicies[0] && i != usedPlayerIndicies[1] && i != usedPlayerIndicies[2] && i != usedPlayerIndicies[3] &&
+                    j != usedGameIndicies[0] && j != usedGameIndicies[1] && j != usedGameIndicies[2] && j != usedGameIndicies[3])
+                {
+                    lowestValue = distance;
+                    indexP = i;
+                    indexG = j;
+                }
+            }
+        }
+
+        // Stores Data for next iteration
+        grades[iterations] = lowestValue;
+        usedPlayerIndicies[iterations] = indexP;
+        usedGameIndicies[iterations] = indexG;
+        iterations += 1;
+
+        // Iterates till loop = number of lines
+        if (iterations < playerCutSpots.Count)
+        {
+            CalculateDistance(usedPlayerIndicies, usedGameIndicies, grades, iterations);
+        }
     }
 }

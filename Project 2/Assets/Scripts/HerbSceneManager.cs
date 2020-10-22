@@ -90,92 +90,95 @@ public class HerbSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // After the game starts the first stage will disable and enable certain text boxes and toggle visibilities
-        if (timer > 0.0f && timer < stage1Time && !gameCutSpots[0].active)
+        if (!OverallManager.paused)
         {
-            timeShown = stage1Time;             // Time shown text set to stage 1 time
-            timeLeft.enabled = true;            // Enable the time left text
-            onBoardingText.enabled = false;     // Disable onboarding text
-
-            ingredient.SetActive(true);         // Make the ingredient visible
-            ToggleVisiblity();                  // Toggles the lines visibility
-        }
-        if (timer > stage1Time && counter < playerCutSpots.Count && timer < stage1Time + stage2Time)
-        {
-            // first update only
-            if (gameCutSpots[0].active)
+            // After the game starts the first stage will disable and enable certain text boxes and toggle visibilities
+            if (timer > 0.0f && timer < stage1Time && !gameCutSpots[0].active)
             {
-                timeShown = stage2Time;     // New time shown
-                ToggleVisiblity();          // Toggles the lines visibility
+                timeShown = stage1Time;             // Time shown text set to stage 1 time
+                timeLeft.enabled = true;            // Enable the time left text
+                onBoardingText.enabled = false;     // Disable onboarding text
+
+                ingredient.SetActive(true);         // Make the ingredient visible
+                ToggleVisiblity();                  // Toggles the lines visibility
+            }
+            if (timer > stage1Time && counter < playerCutSpots.Count && timer < stage1Time + stage2Time)
+            {
+                // first update only
+                if (gameCutSpots[0].active)
+                {
+                    timeShown = stage2Time;     // New time shown
+                    ToggleVisiblity();          // Toggles the lines visibility
+                }
+
+                // Sets current player line to visible
+                playerCutSpots[counter].SetActive(true);
+
+                // Sets the lines position to the mouses positon
+                Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, -1));
+                temp.y = 0;
+                temp.z = -1;
+
+                // Keeps the lines inbounds of the sprite
+                if (temp.x > xBounds / 2)
+                    temp.x = xBounds / 2;
+                else if (temp.x < -xBounds / 2)
+                    temp.x = -xBounds / 2;
+
+                playerCutSpots[counter].transform.position = temp;
+
+                // If the player clicks it sets the players cut spot to the last known mouse postion
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // Playes audio clip
+                    audio.clip = slice;
+                    audio.Play();
+
+                    // Next line
+                    counter++;
+                }
+            }
+            else if (timer > stage1Time + stage2Time && !isCalculated)
+            {
+                // Reverts the last line if the player didnt click 4 times
+                if (counter < 3)
+                {
+                    playerCutSpots[counter].transform.position = new Vector3(20, 0, -1);
+                    playerCutSpots[counter].SetActive(false);
+                }
+
+                isCalculated = true;
+
+                // Calculates the grade
+                scoreText.enabled = true;
+                scoreText.text = string.Format("Score: {0}%", (int)CalculateGrade());
+
+                ToggleVisiblity();      // Toggles the lines visibility
+
+                // Stops the game
+                startGame = false;
             }
 
-            // Sets current player line to visible
-            playerCutSpots[counter].SetActive(true);
-
-            // Sets the lines position to the mouses positon
-            Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, -1));
-            temp.y = 0;
-            temp.z = -1;
-
-            // Keeps the lines inbounds of the sprite
-            if (temp.x > xBounds / 2)
-                temp.x = xBounds / 2;
-            else if (temp.x < -xBounds / 2)
-                temp.x = -xBounds / 2;
-
-            playerCutSpots[counter].transform.position = temp;
-
-            // If the player clicks it sets the players cut spot to the last known mouse postion
-            if (Input.GetMouseButtonDown(0))
+            if (!startGame && Input.GetMouseButtonDown(0))
             {
-                // Playes audio clip
-                audio.clip = slice; 
+                // Plays audio clip
+                audio.clip = tick;
                 audio.Play();
 
-                // Next line
-                counter++;
+                // Starts the game
+                startGame = true;
             }
-        }
-        else if (timer > stage1Time + stage2Time && !isCalculated)
-        {
-            // Reverts the last line if the player didnt click 4 times
-            if (counter < 3)
+            if (startGame)
             {
-                playerCutSpots[counter].transform.position = new Vector3(20, 0, -1);
-                playerCutSpots[counter].SetActive(false);
+                // Updates the time and time shown
+                timer += Time.deltaTime;
+                timeShown = timeShown - Time.deltaTime;
+
+                if (timeShown < 0)
+                    timeShown = 0;
+
+                timeLeft.text = string.Format("Time Left: {0:F1}", timeShown);
             }
-
-            isCalculated = true;
-
-            // Calculates the grade
-            scoreText.enabled = true;
-            scoreText.text = string.Format("Score: {0}%", (int)CalculateGrade());
-
-            ToggleVisiblity();      // Toggles the lines visibility
-
-            // Stops the game
-            startGame = false;
-        }
-
-        if (!startGame && Input.GetMouseButtonDown(0))
-        {
-            // Plays audio clip
-            audio.clip = tick;
-            audio.Play();
-
-            // Starts the game
-            startGame = true;
-        }
-        if (startGame)
-        {
-            // Updates the time and time shown
-            timer += Time.deltaTime;
-            timeShown = timeShown - Time.deltaTime;
-
-            if (timeShown < 0)
-                timeShown = 0;
-
-            timeLeft.text = string.Format("Time Left: {0:F1}", timeShown);
         }
     }
 

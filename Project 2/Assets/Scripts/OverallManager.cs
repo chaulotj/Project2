@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class OverallManager : MonoBehaviour
 {
     public Recipe recipe;
     public float potionScore; //The final score for the current potion
     public float finalScore; //The finals score after all the potions
-    public int curPotion; //0-2
+    public int curPotion; 
     public static bool paused;
 
 	public GameObject lightMinigame;
@@ -21,6 +22,10 @@ public class OverallManager : MonoBehaviour
     public Transform activeMinigame;
     public int curMinigame;
     public float[] scores;
+    private float timer;
+    private float timerCutoff = 35f;
+    private float timerLimit  = 70f;
+    public Text timeText;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -54,6 +59,7 @@ public class OverallManager : MonoBehaviour
     void StartGame()
     {
         curMinigame = 0;
+        timer = 0f;
         recipe.FillRecipe();
         playMinigame(recipe.ingredients[curMinigame]);
     }
@@ -65,8 +71,32 @@ public class OverallManager : MonoBehaviour
             potionScore += recipe.ingredients[c].percentageGrade;
         }
         potionScore /= 4;
+        if(timer > timerCutoff)
+        {
+            float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
+            if(temp < 0)
+            {
+                temp = 0;
+            }
+            potionScore *= temp;
+        }
         scores[curPotion] = potionScore;
         curPotion++;
+        if (curPotion == 10)
+        {
+            float finalTotal = 0;
+            foreach(float f in scores)
+            {
+                finalTotal += f;
+            }
+            finalTotal /= 10;
+            EndSceneManager.score = finalTotal;
+            SceneManager.LoadScene("EndScene");
+        }
+        else
+        {
+            StartGame();
+        }
     }
 
     // Update is called once per frame
@@ -76,8 +106,10 @@ public class OverallManager : MonoBehaviour
         {
             Pause();
         }
-		//checkGameState();
-
+        timer += Time.deltaTime;
+        timeText.text = "Time: " + (int)timer;
+        //checkGameState();
+        Debug.Log(paused);
 	}
 
     public static void Pause()
@@ -105,7 +137,7 @@ public class OverallManager : MonoBehaviour
 
 	//}
 
-	void playMinigame(Ingredient ingredient = null) {
+	public void playMinigame(Ingredient ingredient = null) {
         if(ingredient is LiquidIngredient)
         {
             state = MiniGameState.LiquidGame;
@@ -134,30 +166,41 @@ public class OverallManager : MonoBehaviour
         {
             Destroy(activeMinigame.GetChild(c));
         }
+        trackerArrow.enabled = true;
+        switch (curMinigame)
+        {
+            case 0:
+                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
+                break;
+            case 1:
+                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
+                break;
+            case 2:
+                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
+                break;
+            default:
+                trackerArrow.enabled = false;
+                break;
+        }
 		switch (state) {
 			case MiniGameState.LightGame:
 				//Debug.Log(1);
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
                 Instantiate(lightMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
 				break;
 			case MiniGameState.DustGame:
 				//Debug.Log(2);
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
                 Instantiate(dustMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
                 break;
 			case MiniGameState.LiquidGame:
 				//Debug.Log(3);
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
                 Instantiate(liquidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
                 break;
             case MiniGameState.SolidGame:
                 //Debug.Log(3);
-                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
                 Instantiate(solidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
                 break;
             case MiniGameState.PlantGame:
                 //Debug.Log(3);
-                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
                 Instantiate(plantMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
                 break;
             case MiniGameState.MixingGame:

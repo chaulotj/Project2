@@ -41,37 +41,40 @@ public class DustIngredient : Ingredient
 	// Update is called once per frame
 	void Update()
 	{
-		if (clickCounter < MAX_CLICKS && Input.GetMouseButtonDown(0))
-		{
-			mouseClickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			ps.transform.position = mouseClickPos;
-			ps.Play();
-			clickCounter++;
-			minDistance = float.MaxValue;
+        if (!OverallManager.paused)
+        {
+            if (clickCounter < MAX_CLICKS && Input.GetMouseButtonDown(0))
+            {
+                mouseClickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ps.transform.position = mouseClickPos;
+                ps.Play();
+                clickCounter++;
+                minDistance = float.MaxValue;
 
-			foreach (Marker point in points)
-			{
-				tempDistance = Vector2.Distance(mouseClickPos, point.transform.position);
-				if (tempDistance < minDistance)
-				{
-					minDistance = tempDistance;
-					tempMarker = point;
-				}
-			}
-			distance = minDistance;
+                foreach (Marker point in points)
+                {
+                    tempDistance = Vector2.Distance(mouseClickPos, point.transform.position);
+                    if (tempDistance < minDistance)
+                    {
+                        minDistance = tempDistance;
+                        tempMarker = point;
+                    }
+                }
+                distance = minDistance;
 
-			//add the score
-			if (minDistance < 0.5f) score += 100;
-			else if (minDistance < 1.0f) score += 90;
-			else if (minDistance < 1.5f) score += 80;
-			else if (minDistance < 2.0f) score += 70;
-			else if (minDistance < 2.5f) score += 60;
-			else if (minDistance < 3.0f) score += 50;
-			else score += 0;
+                //add the score
+                if (minDistance < 0.5f) score += 100;
+                else if (minDistance < 1.0f) score += 90;
+                else if (minDistance < 1.5f) score += 80;
+                else if (minDistance < 2.0f) score += 70;
+                else if (minDistance < 2.5f) score += 60;
+                else if (minDistance < 3.0f) score += 50;
+                else score += 0;
 
-			points.Remove(tempMarker);
-			tempMarker.gameObject.SetActive(false);
+                points.Remove(tempMarker);
+                tempMarker.gameObject.SetActive(false);
 
-		}
+            }
+        }
 	}
 }

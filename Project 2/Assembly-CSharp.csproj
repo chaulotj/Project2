@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\ButtonManager.cs" />
      <Compile Include="Assets\Scripts\Draw.cs" />
      <Compile Include="Assets\Scripts\DustIngredient.cs" />
+     <Compile Include="Assets\Scripts\EndSceneManager.cs" />
      <Compile Include="Assets\Scripts\HerbIngredient.cs" />
      <Compile Include="Assets\Scripts\HerbSceneManager.cs" />
      <Compile Include="Assets\Scripts\Ingredient.cs" />

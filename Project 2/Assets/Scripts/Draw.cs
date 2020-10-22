@@ -66,27 +66,30 @@ public class Draw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //only call function once left mouse button is clicked
-        if (Input.GetMouseButtonDown(0))
+        if (!OverallManager.paused)
         {
-            CreateLine();
-        }
-        //and while it's being held down
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 tempMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (Vector2.Distance(tempMousePos, mousePositions[mousePositions.Count - 1]) > .1f){
-                UpdateLine(tempMousePos);
+            //only call function once left mouse button is clicked
+            if (Input.GetMouseButtonDown(0))
+            {
+                CreateLine();
+            }
+            //and while it's being held down
+            if (Input.GetMouseButton(0))
+            {
+                Vector2 tempMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (Vector2.Distance(tempMousePos, mousePositions[mousePositions.Count - 1]) > .1f)
+                {
+                    UpdateLine(tempMousePos);
+                }
+            }
+            //score path
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                scoreFin = ScorePath();
+                Debug.Log("ScoreFin: " + scoreFin);
+                showScore = true;
             }
         }
-        //score path
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            scoreFin = ScorePath();
-            Debug.Log("ScoreFin: " + scoreFin);
-            showScore = true;
-        }
-
     }
 
     void CreateLine()

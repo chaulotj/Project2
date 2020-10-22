@@ -1111,11 +1111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipe: {fileID: 1245474046060870421, guid: a92c5205ba85bbe41b1419f423ce69c5, type: 3}
-  stageOneScore: 0
   potionScore: 0
   finalScore: 0
   curPotion: 0
-  inputIngredients: []
   lightMinigame: {fileID: 5427174614027030677, guid: fafc55170ac12ee4db7577cb2d519909,
     type: 3}
   dustMinigame: {fileID: 7423767902332601000, guid: 4c32b0182f7fd8542aa55f8201caa5c0,
@@ -1130,6 +1128,9 @@ MonoBehaviour:
     type: 3}
   trackerArrow: {fileID: 314754663}
   activeMinigame: {fileID: 899813604}
+  curMinigame: 0
+  scores: []
+  timeText: {fileID: 2046878860}
   state: 0
 --- !u!4 &1591889817
 Transform:
@@ -1172,14 +1173,14 @@ RectTransform:
   m_GameObject: {fileID: 1639787412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 620421351}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -50}
+  m_AnchoredPosition: {x: 15, y: -25}
   m_SizeDelta: {x: 500, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1639787414
@@ -1211,10 +1212,10 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score:'
+  m_Text: 'Last Potion Score:'
 --- !u!222 &1639787415
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1673,14 +1674,14 @@ RectTransform:
   m_GameObject: {fileID: 2046878858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 620421351}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -150}
+  m_AnchoredPosition: {x: 15, y: -100}
   m_SizeDelta: {x: 500, y: 70}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2046878860

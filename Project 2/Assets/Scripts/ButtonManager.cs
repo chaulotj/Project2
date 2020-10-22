@@ -24,6 +24,8 @@ public class ButtonManager : MonoBehaviour
 
     public void MenuButton()
     {
+        OverallManager.paused = false;
+        Time.timeScale = 1;
         SceneManager.LoadScene("MenuScene");
     }
 

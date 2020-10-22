@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LightSceneManager : MonoBehaviour
 {
-    public LightIngredient ingredient;
     private LightIngredient ingredientObj;
     private List<Vector2> points;
     public LineRenderer[] lines;
@@ -18,12 +17,14 @@ public class LightSceneManager : MonoBehaviour
     public AudioClip tick;
     public AudioClip slice;
     private AudioSource source;
+    public OverallManager manager;
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
         lineFollowingMouse = false;
         lineObjs = new LineRenderer[4];
-        ingredientObj = Instantiate(ingredient, new Vector3(0,0,1), Quaternion.identity) as LightIngredient;
+        ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0,0,1), Quaternion.identity) as LightIngredient;
         for(int c = 0; c < 4; c++)
         {
             lineObjs[c] = Instantiate(lines[c], Vector3.zero, Quaternion.identity) as LineRenderer;
@@ -141,12 +142,23 @@ public class LightSceneManager : MonoBehaviour
                     source.clip = slice;
                     source.Play();
                     timing = false;
-                    ingredientObj.GetComponent<SpriteRenderer>().sprite = ingredient.finishedImage;
+                    manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredientObj.percentageGrade;
+                    manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
+                    ingredientObj.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
                     scoreText.enabled = true;
                     scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
                     for (int c = 0; c < 4; c++)
                     {
                         lineObjs[c].enabled = false;
+                    }
+                    manager.curMinigame++;
+                    if(manager.curMinigame == 3)
+                    {
+                        manager.playMinigame();
+                    }
+                    else
+                    {
+                        manager.playMinigame(manager.recipe.ingredients[manager.curMinigame]);
                     }
                 }
             }

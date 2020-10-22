@@ -303,8 +303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b5b6c216076b24a89fb1613818717f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: -4136410292225198055, guid: e5bc42179c33de34aa008e841c06b102,
-    type: 3}
   lines:
   - {fileID: 6365781497071942163, guid: 79381f04fd23d2a4fb639cb0930afa9b, type: 3}
   - {fileID: 6365781497071942163, guid: 79381f04fd23d2a4fb639cb0930afa9b, type: 3}
@@ -313,6 +311,7 @@ MonoBehaviour:
   scoreText: {fileID: 144907903996085607}
   tick: {fileID: 8300000, guid: af453d932fb4b1d41acf8304713d1de0, type: 3}
   slice: {fileID: 8300000, guid: 96053a1814a9f5141acfaee40d1e1c13, type: 3}
+  manager: {fileID: 0}
 --- !u!82 &144907904978083276
 AudioSource:
   m_ObjectHideFlags: 0
@@ -424,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3184134757501874699
 Transform:
   m_ObjectHideFlags: 0

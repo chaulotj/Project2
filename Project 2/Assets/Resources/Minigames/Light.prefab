@@ -312,6 +312,7 @@ MonoBehaviour:
   tick: {fileID: 8300000, guid: af453d932fb4b1d41acf8304713d1de0, type: 3}
   slice: {fileID: 8300000, guid: 96053a1814a9f5141acfaee40d1e1c13, type: 3}
   manager: {fileID: 0}
+  arrow: {fileID: 5793607074704471631, guid: d234786005347e94b9a081f70cea66cd, type: 3}
 --- !u!82 &144907904978083276
 AudioSource:
   m_ObjectHideFlags: 0

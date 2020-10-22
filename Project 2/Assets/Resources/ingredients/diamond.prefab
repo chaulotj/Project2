@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6367419859285563445}
   - component: {fileID: 3518531780271773545}
   - component: {fileID: -3291830442642106091}
+  - component: {fileID: 1600485620153707573}
   m_Layer: 0
   m_Name: diamond
   m_TagString: Untagged
@@ -97,6 +98,7 @@ MonoBehaviour:
   id: 5
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 89542bdf44e03a94385f96899f6dfa44, type: 3}
+  startImage: {fileID: 21300000, guid: 2bd55920707e2df45a04bfd6664a9fea, type: 3}
   score: 0
   clickCounter: 0
   dustColor: {r: 0, g: 0, b: 0, a: 0}
@@ -109,3 +111,29 @@ MonoBehaviour:
   points: []
   mouseClickPos: {x: 0, y: 0, z: 0}
   distance: 0
+--- !u!61 &1600485620153707573
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914450482805176392}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5.12}
+  m_EdgeRadius: 0

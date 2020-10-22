@@ -23,6 +23,9 @@ public class MixingSceneManager : MonoBehaviour
     public AudioClip tick;
     public AudioClip splash;
     private AudioSource source;
+    private bool timing;
+    private float revealTimer;
+    public Text helpText;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,17 +33,24 @@ public class MixingSceneManager : MonoBehaviour
         carryingIngredient = false;
         score = 1f;
         ingredientObjs = new Ingredient[3];
-        cauldronObj = Instantiate(cauldron, Vector3.zero, Quaternion.identity) as GameObject;
-        ladleObj = Instantiate(ladle, Vector3.zero, Quaternion.identity) as GameObject;
-        doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity) as GameObject;
+        cauldronObj = Instantiate(cauldron, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
+        ladleObj = Instantiate(ladle, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
+        doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity, manager.activeMinigame) as GameObject;
         for (int c = 0; c < 3; c++)
         {
-            ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity) as Ingredient;
+            ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity, manager.activeMinigame) as Ingredient;
         }
         stirringDoneAmount = 0f;
         lastPos = new Vector2(10000, 10000);
         source = GetComponent<AudioSource>();
         source.Play();
+        timing = false;
+        revealTimer = 0f;
+        if (manager.mixingScenePlayed)
+        {
+            helpText.enabled = true;
+            helpText.text = "Click on the first ingredient in the recipe to pick it up, then click again over the cauldron to add it";
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +58,16 @@ public class MixingSceneManager : MonoBehaviour
     {
         if (!OverallManager.paused)
         {
+            if (timing)
+            {
+                Time.timeScale = 0;
+                revealTimer += .01f;
+                if (revealTimer > 3f)
+                {
+                    timing = false;
+                    manager.EndPotion();
+                }
+            }
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z += 10;
             ladleObj.transform.position = mousePos;
@@ -88,7 +108,22 @@ public class MixingSceneManager : MonoBehaviour
                                 default:
                                     break;
                             }
-                        }
+                            if (manager.mixingScenePlayed)
+                            {
+                                if(ingredientsAdded == 1)
+                                {
+                                    helpText.text = "Add the second ingredient";
+                                }
+                                else if(ingredientsAdded == 2)
+                                {
+                                    helpText.text = "Add the third ingredient";
+                                }
+                                else if(ingredientsAdded == 3)
+                                {
+                                    helpText.text = "Hit the done button";
+                                    manager.mixingScenePlayed = true;
+                                }
+                            }
                     }
                     else
                     {
@@ -114,14 +149,28 @@ public class MixingSceneManager : MonoBehaviour
                     }
                     scoreText.enabled = true;
                     scoreText.text = "Score: " + (int)(score * 100) + "%";
+                    timing = true;
                     manager.potionScore += score;
                 }
                 else if (carryingIngredient)
                 {
-                    if (cauldronObj.GetComponent<Collider2D>().bounds.Contains(mousePos))
-                    {
                         AudioSource.PlayClipAtPoint(splash, ladleObj.transform.position);
-                        lastPos = new Vector2(10000, 10000);
+                        if (manager.mixingScenePlayed)
+                        {
+                            if (ingredientsAdded == 0)
+                            {
+                                helpText.text = "Stir until the potion's color is the same as the first one in the recipe.";
+                            }
+                            else if(ingredientsAdded == 1)
+                            {
+                                helpText.text = "Stir until the potion's color is the same as the second one in the recipe.";
+                            }
+                            else if (ingredientsAdded == 2)
+                            {
+                                helpText.text = "Stir until the potion's color is the same as the third one in the recipe.";
+                            }
+                        }
+                                lastPos = new Vector2(10000, 10000);
                         if (manager.recipe.ingredients[ingredientsAdded].id != carriedIngredient.id)
                         {
                             score -= 1.0f / 3.0f;

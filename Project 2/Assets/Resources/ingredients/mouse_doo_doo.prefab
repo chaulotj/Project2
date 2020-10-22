@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4590140397110418806}
   - component: {fileID: 8904534531704785982}
   - component: {fileID: 361369290814736977}
+  - component: {fileID: -1730436165946915803}
   m_Layer: 0
   m_Name: mouse_doo_doo
   m_TagString: Untagged
@@ -97,3 +98,30 @@ MonoBehaviour:
   id: 14
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 062beef25fccf344d8655ec447a2ba02, type: 3}
+  startImage: {fileID: 21300000, guid: 796e69f7bdc7d1449b0a79acb1e82ffa, type: 3}
+--- !u!61 &-1730436165946915803
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8697477086013739789}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.1, y: 4.1}
+  m_EdgeRadius: 0

@@ -26,6 +26,8 @@ public class OverallManager : MonoBehaviour
     private float timerCutoff = 35f;
     private float timerLimit  = 70f;
     public Text timeText;
+    public bool lightScenePlayed = false;
+    public bool mixingScenePlayed = false;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -64,7 +66,7 @@ public class OverallManager : MonoBehaviour
         playMinigame(recipe.ingredients[curMinigame]);
     }
 
-    void EndPotion()
+    public void EndPotion()
     {
         for(int c = 0; c < 3; c++)
         {
@@ -164,7 +166,7 @@ public class OverallManager : MonoBehaviour
         }
         for (int c = 0; c < activeMinigame.childCount; c++)
         {
-            Destroy(activeMinigame.GetChild(c));
+            Destroy(activeMinigame.GetChild(c).gameObject);
         }
         trackerArrow.enabled = true;
         switch (curMinigame)

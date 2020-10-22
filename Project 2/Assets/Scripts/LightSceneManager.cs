@@ -18,16 +18,19 @@ public class LightSceneManager : MonoBehaviour
     public AudioClip slice;
     private AudioSource source;
     public OverallManager manager;
+    private Vector3[] arrowPositions;
+    public GameObject arrow;
+    private GameObject arrowObj;
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
         lineFollowingMouse = false;
         lineObjs = new LineRenderer[4];
-        ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0,0,1), Quaternion.identity) as LightIngredient;
+        ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0,0,1), Quaternion.identity, manager.activeMinigame) as LightIngredient;
         for(int c = 0; c < 4; c++)
         {
-            lineObjs[c] = Instantiate(lines[c], Vector3.zero, Quaternion.identity) as LineRenderer;
+            lineObjs[c] = Instantiate(lines[c], Vector3.zero, Quaternion.identity, manager.activeMinigame) as LineRenderer;
             lineObjs[c].shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             lineObjs[c].receiveShadows = true;
             lineObjs[c].startWidth = .05f;
@@ -41,6 +44,43 @@ public class LightSceneManager : MonoBehaviour
         source = GetComponent<AudioSource>();
         source.volume = 1.0f;
         source.clip = tick;
+        if (!manager.lightScenePlayed)
+        {
+            arrowPositions = new Vector3[8];
+            for(int c = 0; c < 8; c++)
+            {
+                Vector3 curPos = new Vector3();
+                curPos.z = -1f;
+                if(c < 2)
+                {
+                    curPos.x = ingredientObj.GetComponent<Collider2D>().bounds.extents.x * -.6f;
+                }
+                else if(c < 4)
+                {
+                    curPos.x = ingredientObj.GetComponent<Collider2D>().bounds.extents.x * -.2f;
+                }
+                else if (c < 6)
+                {
+                    curPos.x = ingredientObj.GetComponent<Collider2D>().bounds.extents.x * .2f;
+                }
+                else if (c < 8)
+                {
+                    curPos.x = ingredientObj.GetComponent<Collider2D>().bounds.extents.x * .6f;
+                }
+                if(c % 2 == 0)
+                {
+                    curPos.y = ingredientObj.GetComponent<Collider2D>().bounds.extents.y + .5f;
+                }
+                else
+                {
+                    curPos.y = -ingredientObj.GetComponent<Collider2D>().bounds.extents.y - .5f;
+                }
+                curPos.x += arrow.GetComponent<Collider2D>().bounds.extents.x;
+                curPos.y += arrow.GetComponent<Collider2D>().bounds.extents.y;
+                arrowPositions[c] = curPos;
+            }
+            arrowObj = Instantiate(arrow, arrowPositions[0], Quaternion.identity, manager.activeMinigame);
+        }
     }
 
     // Update is called once per frame
@@ -64,6 +104,18 @@ public class LightSceneManager : MonoBehaviour
                         lineFollowingMouse = false;
                     }
                     numClicks++;
+                    if (!manager.lightScenePlayed)
+                    {
+                        if (numClicks < 8)
+                        {
+                            arrowObj.transform.position = arrowPositions[numClicks];
+                        }
+                        else
+                        {
+                            Destroy(arrowObj);
+                            manager.lightScenePlayed = true;
+                        }
+                    }
                     source.Play();
                 }
                 if (lineFollowingMouse)
@@ -132,21 +184,24 @@ public class LightSceneManager : MonoBehaviour
                     }
                     ingredientObj.percentageGrade = score;
                     timing = true;
+                    ingredientObj.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
+                    scoreText.enabled = true;
+                    scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
                 }
             }
             if (timing)
             {
-                revealTimer += Time.deltaTime;
+                Time.timeScale = 0;
+                revealTimer += .01f;
                 if (revealTimer > 3f)
                 {
+                    timing = false;
+                    Time.timeScale = 1;
                     source.clip = slice;
                     source.Play();
                     timing = false;
                     manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredientObj.percentageGrade;
                     manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
-                    ingredientObj.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
-                    scoreText.enabled = true;
-                    scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
                     for (int c = 0; c < 4; c++)
                     {
                         lineObjs[c].enabled = false;

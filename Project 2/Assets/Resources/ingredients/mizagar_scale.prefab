@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2816824868611094898}
   - component: {fileID: 6344550434651997196}
   - component: {fileID: -2951295880041262994}
+  - component: {fileID: 8960714907476235631}
   m_Layer: 0
   m_Name: mizagar_scale
   m_TagString: Untagged
@@ -95,5 +96,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 13
-  percentageGrade: 0
+  percentageGrade: 0.58743626
   finishedImage: {fileID: 21300000, guid: 3707871b48a36fb458a76d34657cc643, type: 3}
+  startImage: {fileID: 21300000, guid: b354053f7f13162468abec5a340162c3, type: 3}
+--- !u!61 &8960714907476235631
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326428612887294855}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.2, y: 4.2}
+  m_EdgeRadius: 0

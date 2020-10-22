@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6896191480947343646}
   - component: {fileID: 5254257326446491358}
   - component: {fileID: -6210022240951688385}
+  - component: {fileID: 1572261435281170944}
   m_Layer: 0
   m_Name: dandelion
   m_TagString: Untagged
@@ -97,3 +98,30 @@ MonoBehaviour:
   id: 4
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 77c920924cb1159408cb45cbda421601, type: 3}
+  startImage: {fileID: 21300000, guid: d9118fb31b9d8e14dab1885bfe7ba42c, type: 3}
+--- !u!61 &1572261435281170944
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5339248199498723657}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 2.56}
+    newSize: {x: 5.12, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.12, y: 2.56}
+  m_EdgeRadius: 0

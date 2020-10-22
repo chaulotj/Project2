@@ -8,22 +8,28 @@ public class LiquidSceneManager : MonoBehaviour
     public GameObject anvil;
     private GameObject anvilObj;
     private Collider2D anvilCollider;
-    public LiquidIngredient ingredient;
     private LiquidIngredient ingredientObj;
     private Collider2D ingredientCollider;
     private float xAccel;
     public Text scoreText;
     private bool update;
     public AudioClip splat;
+    private OverallManager manager;
+    private bool timing;
+    private float revealTimer;
     // Start is called before the first frame update
     void Start()
     {
-        anvilObj = Instantiate(anvil, new Vector3(Random.Range(-8.0f, 8.0f), 5, -1), Quaternion.identity) as GameObject;
+        manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
+        anvilObj = Instantiate(anvil, new Vector3(Random.Range(-8.0f, 8.0f), 5, -1), Quaternion.identity, manager.activeMinigame) as GameObject;
         anvilCollider = anvilObj.GetComponent<Collider2D>();
-        ingredientObj = Instantiate(ingredient, new Vector3(0, -4, 0), Quaternion.identity) as LiquidIngredient;
+        ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0, -4, 0), Quaternion.identity, manager.activeMinigame) as LiquidIngredient;
+        ingredientObj.transform.localScale = new Vector3(.4f, .4f, .4f);
         ingredientCollider = ingredientObj.GetComponent<Collider2D>();
         xAccel = 0f;
         update = true;
+        timing = false;
+        revealTimer = 0f;
     }
 
     // Update is called once per frame
@@ -77,12 +83,34 @@ public class LiquidSceneManager : MonoBehaviour
                             ingredientObj.percentageGrade = 2f - ingredientObj.percentageGrade;
                         }
                     }
+                    manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredientObj.percentageGrade;
+                    manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
                     scoreText.enabled = true;
                     scoreText.text = "Score: " + (int)(ingredientObj.percentageGrade * 100) + "%";
                     ingredientObj.transform.position = Vector3.zero;
-                    ingredientObj.GetComponent<SpriteRenderer>().sprite = ingredient.finishedImage;
+                    ingredientObj.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
                     AudioSource.PlayClipAtPoint(splat, transform.position);
+                    manager.curMinigame++;
                     update = false;
+                    timing = true;
+                }
+            }
+            if (timing)
+            {
+                Time.timeScale = 0;
+                revealTimer += .01f;
+                if (revealTimer > 3f)
+                {
+                    timing = false;
+                    Time.timeScale = 1;
+                    if (manager.curMinigame == 3)
+                    {
+                        manager.playMinigame();
+                    }
+                    else
+                    {
+                        manager.playMinigame(manager.recipe.ingredients[manager.curMinigame]);
+                    }
                 }
             }
         }

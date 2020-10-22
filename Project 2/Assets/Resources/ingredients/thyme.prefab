@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4254969185221320103}
   - component: {fileID: 8139177171351416925}
   - component: {fileID: -3764691624969928759}
+  - component: {fileID: -8074059868769722292}
   m_Layer: 0
   m_Name: thyme
   m_TagString: Untagged
@@ -97,3 +98,30 @@ MonoBehaviour:
   id: 21
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 7508223a6dacbbc46ac01b8b7775c080, type: 3}
+  startImage: {fileID: 21300000, guid: f9b629dd50f396f439dcc63c2619c626, type: 3}
+--- !u!61 &-8074059868769722292
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553248533665300608}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 2.56}
+    newSize: {x: 5.12, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.12, y: 2.56}
+  m_EdgeRadius: 0

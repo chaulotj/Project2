@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9133720018940913694}
   - component: {fileID: 3814902049326545821}
   - component: {fileID: 1205344547931616021}
+  - component: {fileID: -4656116776703601823}
   m_Layer: 0
   m_Name: emerald
   m_TagString: Untagged
@@ -97,6 +98,7 @@ MonoBehaviour:
   id: 7
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 1097e06fcfad4e24ab95b7a8fe0c60c5, type: 3}
+  startImage: {fileID: 21300000, guid: 1d29b496ee036394ca0050b4458ca3d8, type: 3}
   score: 0
   clickCounter: 0
   dustColor: {r: 0, g: 0, b: 0, a: 0}
@@ -109,3 +111,29 @@ MonoBehaviour:
   points: []
   mouseClickPos: {x: 0, y: 0, z: 0}
   distance: 0
+--- !u!61 &-4656116776703601823
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3642863077080838802}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5.12}
+  m_EdgeRadius: 0

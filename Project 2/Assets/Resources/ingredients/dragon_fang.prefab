@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3224463723305363545}
   - component: {fileID: 7537813033301103859}
   - component: {fileID: -1837765776534132058}
+  - component: {fileID: 908016711352457803}
   m_Layer: 0
   m_Name: dragon_fang
   m_TagString: Untagged
@@ -97,3 +98,30 @@ MonoBehaviour:
   id: 6
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 2f364b98ab5e55d48aa746365902ef48, type: 3}
+  startImage: {fileID: 21300000, guid: b1fafd0ad0a247a40a0d575c65714349, type: 3}
+--- !u!61 &908016711352457803
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8482524648449415694}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.4, y: 5.12}
+  m_EdgeRadius: 0

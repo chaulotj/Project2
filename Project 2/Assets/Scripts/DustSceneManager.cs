@@ -34,6 +34,7 @@ public class DustSceneManager : MonoBehaviour
 	public OverallManager manager;
 
 	public float distance;
+    private bool keepTimeZero;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -53,15 +54,23 @@ public class DustSceneManager : MonoBehaviour
 		setUpPoints();
 		var main = ps.main;
 		main.startColor = dustColor;
+        keepTimeZero = false;
 
-
-	}
+    }
 
 	// Update is called once per frame
 	void Update()
 	{
 		if (!OverallManager.paused)
 		{
+            if (keepTimeZero)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
 			if (clickCounter < MAX_CLICKS && Input.GetMouseButtonDown(0))
 			{
 				clickCounter++;
@@ -112,12 +121,13 @@ public class DustSceneManager : MonoBehaviour
 		s_renderer.sprite = ingredientObj.finishedImage;
 		InstructionTxt.text = "Score: " + score*100 + "%";
 		HintTxt.text = "Press 'space' to continue!";
-		Time.timeScale = 0;
-	}
+        keepTimeZero = true;
+    }
 
 	void nextGame() {
-		Time.timeScale = 1;
-		manager.curMinigame++;
+        keepTimeZero = false;
+        Time.timeScale = 1;
+        manager.curMinigame++;
 		if (manager.curMinigame == 3)
 		{
 			manager.playMinigame();

@@ -24,6 +24,8 @@ public class Draw : MonoBehaviour
     //SFX
     public AudioSource source;
     public AudioClip[] sounds;
+    private bool timing;
+    private float revealTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +68,8 @@ public class Draw : MonoBehaviour
             counter += .3f;
             //Debug.Log("4" + temp);
         }
-
+        timing = false;
+        revealTimer = 0f;
     }
 
     // Update is called once per frame
@@ -94,9 +97,20 @@ public class Draw : MonoBehaviour
             //score path
             if (Input.GetKeyDown(KeyCode.S))
             {
+                timing = true;
                 scoreFin = ScorePath();
                 Debug.Log("ScoreFin: " + scoreFin);
                 showScore = true;
+            }
+            if (timing)
+            {
+                revealTimer += Time.unscaledDeltaTime;
+                Time.timeScale = 0f;
+                if(revealTimer > 3f)
+                {
+                    Time.timeScale = 1f;
+                    timing = false;
+                }
             }
         }
     }

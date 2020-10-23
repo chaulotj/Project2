@@ -52,12 +52,12 @@ public class OverallManager : MonoBehaviour
 
 	float randomIngredient;
 	// Start is called before the first frame update
-	void Awake()
+	void Start()
 	{
-		scores = new float[10];
-		curPotion = 0;
-		paused = false;
-		StartGame();
+        scores = new float[10];
+        curPotion = 0;
+        paused = false;
+        StartGame();
 	}
 
 	void StartGame()
@@ -154,7 +154,8 @@ public class OverallManager : MonoBehaviour
 	//}
 
 	public void playMinigame(Ingredient ingredient = null) {
-		recipe.ResetIngredients();
+        updateUI();
+		//recipe.ResetIngredients();
 		if(ingredient is LiquidIngredient)
 		{
 			state = MiniGameState.LiquidGame;

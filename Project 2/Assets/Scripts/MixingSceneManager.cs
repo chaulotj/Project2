@@ -11,6 +11,7 @@ public class MixingSceneManager : MonoBehaviour
     private int ingredientsAdded;
     public GameObject cauldron;
     private GameObject cauldronObj;
+    public GameObject otherCauldron;
     public GameObject ladle;
     private GameObject ladleObj;
     private bool carryingIngredient;
@@ -29,16 +30,22 @@ public class MixingSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
         ingredientsAdded = 0;
         carryingIngredient = false;
         score = 1f;
         ingredientObjs = new Ingredient[3];
         cauldronObj = Instantiate(cauldron, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
+        cauldronObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         ladleObj = Instantiate(ladle, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
+        ladleObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity, manager.activeMinigame) as GameObject;
+        GameObject otherCauldronObj = Instantiate(otherCauldron, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
+        otherCauldronObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         for (int c = 0; c < 3; c++)
         {
             ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity, manager.activeMinigame) as Ingredient;
+            ingredientObjs[c].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         }
         stirringDoneAmount = 0f;
         lastPos = new Vector2(10000, 10000);
@@ -61,7 +68,7 @@ public class MixingSceneManager : MonoBehaviour
             if (timing)
             {
                 Time.timeScale = 0;
-                revealTimer += .005f;
+                revealTimer += Time.unscaledDeltaTime;
                 if (revealTimer > 3f)
                 {
                     timing = false;

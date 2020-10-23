@@ -201,7 +201,7 @@ public class LightSceneManager : MonoBehaviour
             if (timing)
             {
                 Time.timeScale = 0;
-                revealTimer += .005f;
+                revealTimer += Time.unscaledDeltaTime;
                 if (revealTimer > 3f)
                 {
                     timing = false;

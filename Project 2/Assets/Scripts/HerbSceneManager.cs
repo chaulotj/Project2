@@ -55,6 +55,8 @@ public class HerbSceneManager : MonoBehaviour
     // boolean values
     private bool isCalculated = false;
     private bool startGame = false;
+    public GameObject box;
+    private bool keepTimeZero;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +71,7 @@ public class HerbSceneManager : MonoBehaviour
         xBounds = ingredient.GetComponent<SpriteRenderer>().bounds.size.x;
 
         // Reset timer
-        timer = 0;
+        timer = 0f;
 
         // Centers ingredient
         ingredient.transform.position = new Vector3(0, 0, 0);
@@ -94,6 +96,7 @@ public class HerbSceneManager : MonoBehaviour
         // Sets up audio
         audio = GetComponent<AudioSource>();
         audio.volume = 1.0f;
+        keepTimeZero = false;
     }
 
     // Update is called once per frame
@@ -101,10 +104,23 @@ public class HerbSceneManager : MonoBehaviour
     {
         if (!OverallManager.paused)
         {
+            if (keepTimeZero)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
+            if(timer == 0f)
+            {
+                keepTimeZero = true;
+            }
             // after the game starts the first stage will disable and enable certain text boxes and toggle visibilities
             if (timer > 0.0f && timer < stage1Time && !gameCutSpots[0].active)
             {
-                Time.timeScale = 0;
+                Destroy(box);
+                keepTimeZero = true;
 
                 timeShown = stage1Time;             // Time shown text set to stage 1 time
                 timeLeft.enabled = true;            // Enable the time left text
@@ -115,8 +131,7 @@ public class HerbSceneManager : MonoBehaviour
             }
             if (timer > stage1Time && counter < playerCutSpots.Count && timer < stage1Time + stage2Time)
             {
-
-                Time.timeScale = 1;
+                keepTimeZero = false;
 
                 // first update only
                 if (gameCutSpots[0].active)
@@ -158,7 +173,7 @@ public class HerbSceneManager : MonoBehaviour
                 int grade = (int)CalculateGrade();
 
                 // Reverts the last line if the player didnt click 4 times
-                Time.timeScale = 0;
+                keepTimeZero = true;
 
                 // Reverts the last line if the player didnt click 4 times
                 if (counter < 4)
@@ -179,7 +194,8 @@ public class HerbSceneManager : MonoBehaviour
 
             if (timer > stage1Time + stage2Time + 5 && isCalculated)
             {
-
+                keepTimeZero = false;
+                Time.timeScale = 1;
                 manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredient.percentageGrade;
                 manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
                 ingredient.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Colors { Green, Red, Blue, Yellow, Orange, Purple }
-
 public class Recipe : MonoBehaviour
 {
     public Color[] colors; //Make sure there are three
     public Ingredient[] ingredients; //Make sure there are three
     public List<Ingredient> fullIngredientList; //Every ingredient
+    private int[] idsUsed;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -32,7 +31,9 @@ public class Recipe : MonoBehaviour
 
     public void FillRecipe()
     {
+        idsUsed = new int[3];
         ResetIngredients();
+        colors = new Color[3];
         int[] initialList = new int[6];
         for(int c = 0; c < 6; c++)
         {
@@ -74,9 +75,25 @@ public class Recipe : MonoBehaviour
                 default:
                     break;
             }
+        }
+        for(int c = 0; c < 3; c++)
+        {
+            bool duplicate = true;
             Ingredient temp = new Ingredient();
-            temp = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
+            while (duplicate)
+            {
+                duplicate = false;
+                temp = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
+                for(int d = 0; d < c; d++)
+                {
+                    if(idsUsed[d] == temp.id)
+                    {
+                        duplicate = true;
+                    }
+                }
+            }
             ingredients[c] = temp;
+            idsUsed[c] = temp.id;
         }
     }
 }

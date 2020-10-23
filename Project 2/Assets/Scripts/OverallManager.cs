@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class OverallManager : MonoBehaviour
 {
-    public Recipe recipe;
-    public float potionScore; //The final score for the current potion
-    public float finalScore; //The finals score after all the potions
-    public int curPotion; 
-    public static bool paused;
+	public Recipe recipe;
+	public float potionScore; //The final score for the current potion
+	public float finalScore; //The finals score after all the potions
+	public int curPotion; 
+	public static bool paused;
 
 	public GameObject lightMinigame;
 	public GameObject dustMinigame;
@@ -19,15 +19,15 @@ public class OverallManager : MonoBehaviour
 	public GameObject plantMinigame;
 	public GameObject mixingMinigame;
 	public Image trackerArrow;
-    public Transform activeMinigame;
-    public int curMinigame;
-    public float[] scores;
-    private float timer;
-    private float timerCutoff = 35f;
-    private float timerLimit  = 70f;
-    public Text timeText;
-    public bool lightScenePlayed = false;
-    public bool mixingScenePlayed = false;
+	public Transform activeMinigame;
+	public int curMinigame;
+	public float[] scores;
+	public float timer;
+	private float timerCutoff = 35f;
+	private float timerLimit  = 70f;
+	public Text timeText;
+	public bool lightScenePlayed = false;
+	public bool mixingScenePlayed = false;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -51,85 +51,85 @@ public class OverallManager : MonoBehaviour
 	float randomIngredient;
 	// Start is called before the first frame update
 	void Awake()
-    {
-        scores = new float[10];
-        curPotion = 0;
+	{
+		scores = new float[10];
+		curPotion = 0;
 		paused = false;
-        StartGame();
+		StartGame();
 	}
 
-    void StartGame()
-    {
-        curMinigame = 0;
-        timer = 0f;
-        recipe.FillRecipe();
-        playMinigame(recipe.ingredients[curMinigame]);
-    }
-
-    public void EndPotion()
-    {
-        for(int c = 0; c < 3; c++)
-        {
-            potionScore += recipe.ingredients[c].percentageGrade;
-        }
-        potionScore /= 4;
-        if(timer > timerCutoff)
-        {
-            float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
-            if(temp < 0)
-            {
-                temp = 0;
-            }
-            potionScore *= temp;
-        }
-        scores[curPotion] = potionScore;
-        curPotion++;
-        if (curPotion == 10)
-        {
-            float finalTotal = 0;
-            foreach(float f in scores)
-            {
-                finalTotal += f;
-            }
-            finalTotal /= 10;
-            EndSceneManager.score = finalTotal;
-            SceneManager.LoadScene("EndScene");
-        }
-        else
-        {
-            StartGame();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Pause();
-        }
-        timer += Time.deltaTime;
-        timeText.text = "Time: " + (int)timer;
-        //checkGameState();
-        Debug.Log(paused);
+	void StartGame()
+	{
+		curMinigame = 0;
+		timer = 0f;
+		recipe.FillRecipe();
+		playMinigame(recipe.ingredients[curMinigame]);
 	}
 
-    public static void Pause()
-    {
-        if (paused)
-        {
-            Time.timeScale = 1;
-            GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
+	public void EndPotion()
+	{
+		for(int c = 0; c < 3; c++)
+		{
+			potionScore += recipe.ingredients[c].percentageGrade;
+		}
+		potionScore /= 4;
+		if(timer > timerCutoff)
+		{
+			float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
+			if(temp < 0)
+			{
+				temp = 0;
+			}
+			potionScore *= temp;
+		}
+		scores[curPotion] = potionScore;
+		curPotion++;
+		if (curPotion == 10)
+		{
+			float finalTotal = 0;
+			foreach(float f in scores)
+			{
+				finalTotal += f;
+			}
+			finalTotal /= 10;
+			EndSceneManager.score = finalTotal;
+			SceneManager.LoadScene("EndScene");
+		}
+		else
+		{
+			StartGame();
+		}
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Pause();
+		}
+		timer += Time.deltaTime;
+		timeText.text = "Time: " + (int)timer;
+		//checkGameState();
+		Debug.Log(paused);
+	}
+
+	public static void Pause()
+	{
+		if (paused)
+		{
+			Time.timeScale = 1;
+			GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
 			GameObject.Find("UI").GetComponent<Canvas>().enabled = true;
-        }
-        else
-        {
-            Time.timeScale = 0;
-            GameObject.Find("Canvas").GetComponent<Canvas>().enabled = true;
+		}
+		else
+		{
+			Time.timeScale = 0;
+			GameObject.Find("Canvas").GetComponent<Canvas>().enabled = true;
 			GameObject.Find("UI").GetComponent<Canvas>().enabled = false;
 		}
 		paused = !paused;
-    }
+	}
 
 	//void checkGameState() {
 	//	if (Input.GetKeyDown(KeyCode.Alpha1)) state = MiniGameState.Minigame1;
@@ -140,76 +140,76 @@ public class OverallManager : MonoBehaviour
 	//}
 
 	public void playMinigame(Ingredient ingredient = null) {
-        recipe.ResetIngredients();
-        if(ingredient is LiquidIngredient)
-        {
-            state = MiniGameState.LiquidGame;
-        }
-        else if (ingredient is LightIngredient)
-        {
-            state = MiniGameState.LightGame;
-        }
-        else if (ingredient is SolidIngredient)
-        {
-            state = MiniGameState.SolidGame;
-        }
-        else if (ingredient is DustIngredient)
-        {
-            state = MiniGameState.DustGame;
-        }
-        else if (ingredient is HerbIngredient)
-        {
-            state = MiniGameState.PlantGame;
-        }
-        else
-        {
-            state = MiniGameState.MixingGame;
-        }
-        for (int c = 0; c < activeMinigame.childCount; c++)
-        {
-            Destroy(activeMinigame.GetChild(c).gameObject);
-        }
-        trackerArrow.enabled = true;
-        switch (curMinigame)
-        {
-            case 0:
-                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
-                break;
-            case 1:
-                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
-                break;
-            case 2:
-                trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
-                break;
-            default:
-                trackerArrow.enabled = false;
-                break;
-        }
+		recipe.ResetIngredients();
+		if(ingredient is LiquidIngredient)
+		{
+			state = MiniGameState.LiquidGame;
+		}
+		else if (ingredient is LightIngredient)
+		{
+			state = MiniGameState.LightGame;
+		}
+		else if (ingredient is SolidIngredient)
+		{
+			state = MiniGameState.SolidGame;
+		}
+		else if (ingredient is DustIngredient)
+		{
+			state = MiniGameState.DustGame;
+		}
+		else if (ingredient is HerbIngredient)
+		{
+			state = MiniGameState.PlantGame;
+		}
+		else
+		{
+			state = MiniGameState.MixingGame;
+		}
+		for (int c = 0; c < activeMinigame.childCount; c++)
+		{
+			Destroy(activeMinigame.GetChild(c).gameObject);
+		}
+		trackerArrow.enabled = true;
+		switch (curMinigame)
+		{
+			case 0:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
+				break;
+			case 1:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
+				break;
+			case 2:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
+				break;
+			default:
+				trackerArrow.enabled = false;
+				break;
+		}
 		switch (state) {
 			case MiniGameState.LightGame:
 				//Debug.Log(1);
-                Instantiate(lightMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				Instantiate(lightMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
 				break;
 			case MiniGameState.DustGame:
 				//Debug.Log(2);
-                Instantiate(dustMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
-                break;
+				Instantiate(dustMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				break;
 			case MiniGameState.LiquidGame:
 				//Debug.Log(3);
-                Instantiate(liquidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
-                break;
-            case MiniGameState.SolidGame:
-                //Debug.Log(3);
-                Instantiate(solidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
-                break;
-            case MiniGameState.PlantGame:
-                //Debug.Log(3);
-                Instantiate(plantMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
-                break;
-            case MiniGameState.MixingGame:
-                //Debug.Log(4);
-                Instantiate(mixingMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
-                break;
+				Instantiate(liquidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				break;
+			case MiniGameState.SolidGame:
+				//Debug.Log(3);
+				Instantiate(solidMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				break;
+			case MiniGameState.PlantGame:
+				//Debug.Log(3);
+				Instantiate(plantMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				break;
+			case MiniGameState.MixingGame:
+				//Debug.Log(4);
+				Instantiate(mixingMinigame, Vector3.zero, Quaternion.identity, activeMinigame);
+				break;
 			default:
 				//Debug.Log(0);
 				break;

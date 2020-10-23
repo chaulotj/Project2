@@ -17,7 +17,7 @@ public class HerbSceneManager : MonoBehaviour
     public AudioClip slice;
 
     // game objects
-    public GameObject ingredient;
+    public HerbIngredient ingredient;
     public GameObject line1;
     public GameObject line2;
 
@@ -40,11 +40,14 @@ public class HerbSceneManager : MonoBehaviour
     // random
     private Random random = new Random();
 
+    private OverallManager manager;
+
     // float values
     private float xBounds = 0.0f;
     private float stage1Time = 7.0f;
     private float stage2Time = 10.0f;
     private float timeShown = 0.0f;
+    private float startTime;
 
     // int values
     private int counter = 0;
@@ -56,6 +59,12 @@ public class HerbSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
+
+        // Creates ingredient
+        ingredient = Instantiate(manager.recipe.ingredients[manager.curMinigame], Vector3.zero, Quaternion.Euler(0, 0, 0)) as HerbIngredient;
+        ingredient.transform.parent = GameObject.Find("ActiveMinigame").transform;
+
         // The X bounds of the sprite
         xBounds = ingredient.GetComponent<SpriteRenderer>().bounds.size.x;
 
@@ -65,9 +74,6 @@ public class HerbSceneManager : MonoBehaviour
         // Centers ingredient
         ingredient.transform.position = new Vector3(0, 0, 0);
 
-        // Creates ingredient
-        ingredient = Instantiate(ingredient, ingredient.transform.position, Quaternion.Euler(0, 0, 0));
-
         // Creates all of the lines
         for (int i = 0; i < 4; i++)
         {
@@ -75,12 +81,15 @@ public class HerbSceneManager : MonoBehaviour
             playerCutSpots.Add(Instantiate(line1, new Vector3(20, 0, -1), Quaternion.Euler(0, 0, 0)));
             playerCutSpots[i].SetActive(false);
 
+            gameCutSpots[i].transform.parent = GameObject.Find("ActiveMinigame").transform;
+            playerCutSpots[i].transform.parent = GameObject.Find("ActiveMinigame").transform;
+
             // Checks the game cuts line positons
             CheckPositions();
         }
 
-        ingredient.SetActive(false);    // Make the ingredient invisible
-        ToggleVisiblity();              // Toggles the lines visibility
+        ingredient.gameObject.SetActive(false);     // Make the ingredient invisible
+        ToggleVisiblity();                          // Toggles the lines visibility
 
         // Sets up audio
         audio = GetComponent<AudioSource>();
@@ -92,18 +101,23 @@ public class HerbSceneManager : MonoBehaviour
     {
         if (!OverallManager.paused)
         {
-            // After the game starts the first stage will disable and enable certain text boxes and toggle visibilities
+            // after the game starts the first stage will disable and enable certain text boxes and toggle visibilities
             if (timer > 0.0f && timer < stage1Time && !gameCutSpots[0].active)
             {
+                Time.timeScale = 0;
+
                 timeShown = stage1Time;             // Time shown text set to stage 1 time
                 timeLeft.enabled = true;            // Enable the time left text
                 onBoardingText.enabled = false;     // Disable onboarding text
 
-                ingredient.SetActive(true);         // Make the ingredient visible
+                ingredient.gameObject.SetActive(true);     // Make the ingredient visible
                 ToggleVisiblity();                  // Toggles the lines visibility
             }
             if (timer > stage1Time && counter < playerCutSpots.Count && timer < stage1Time + stage2Time)
             {
+
+                Time.timeScale = 1;
+
                 // first update only
                 if (gameCutSpots[0].active)
                 {
@@ -115,7 +129,7 @@ public class HerbSceneManager : MonoBehaviour
                 playerCutSpots[counter].SetActive(true);
 
                 // Sets the lines position to the mouses positon
-                Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, -1));
+                Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, 0, -2));
                 temp.y = 0;
                 temp.z = -1;
 
@@ -138,25 +152,48 @@ public class HerbSceneManager : MonoBehaviour
                     counter++;
                 }
             }
-            else if (timer > stage1Time + stage2Time && !isCalculated)
+
+            if (timer > stage1Time + stage2Time && !isCalculated || counter == 4 && !isCalculated)
             {
+                int grade = (int)CalculateGrade();
+
                 // Reverts the last line if the player didnt click 4 times
-                if (counter < 3)
+                Time.timeScale = 0;
+
+                // Reverts the last line if the player didnt click 4 times
+                if (counter < 4)
                 {
                     playerCutSpots[counter].transform.position = new Vector3(20, 0, -1);
                     playerCutSpots[counter].SetActive(false);
                 }
 
                 isCalculated = true;
-
                 // Calculates the grade
                 scoreText.enabled = true;
-                scoreText.text = string.Format("Score: {0}%", (int)CalculateGrade());
+               scoreText.text = string.Format("Score: {0}%", grade);
 
-                ToggleVisiblity();      // Toggles the lines visibility
+                    ToggleVisiblity();      // Toggles the lines visibility
 
-                // Stops the game
-                startGame = false;
+                timeShown = 5;
+            }
+
+            if (timer > stage1Time + stage2Time + 5 && isCalculated)
+            {
+
+                manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredient.percentageGrade;
+                manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
+                ingredient.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
+
+                manager.curMinigame++;
+
+                if (manager.curMinigame == 3)
+                {
+                    manager.playMinigame();
+                }
+                else
+                {
+                    manager.playMinigame(manager.recipe.ingredients[manager.curMinigame]);
+                }
             }
 
             if (!startGame && Input.GetMouseButtonDown(0))
@@ -164,15 +201,15 @@ public class HerbSceneManager : MonoBehaviour
                 // Plays audio clip
                 audio.clip = tick;
                 audio.Play();
-
+                
                 // Starts the game
                 startGame = true;
             }
             if (startGame)
             {
                 // Updates the time and time shown
-                timer += Time.deltaTime;
-                timeShown = timeShown - Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
+                timeShown = timeShown - Time.unscaledDeltaTime;
 
                 if (timeShown < 0)
                     timeShown = 0;
@@ -259,7 +296,7 @@ public class HerbSceneManager : MonoBehaviour
         }
 
         // Subtracts any missed lines from the total
-        finalGrade = finalGrade - ((100 / counter) * (4 - counter));
+        finalGrade = finalGrade - ((100 / playerCutSpots.Count) * (4 - counter));
 
         // Anything that exceeds the min and max will be capped
         if (finalGrade > 100)

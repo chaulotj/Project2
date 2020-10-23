@@ -75,7 +75,7 @@ public class Recipe : MonoBehaviour
                     break;
             }
             Ingredient temp = new Ingredient();
-            temp = fullIngredientList[5];
+            temp = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
             ingredients[c] = temp;
         }
     }

@@ -21,9 +21,15 @@ public class Draw : MonoBehaviour
     public int scoreFin = 0;
     public bool showScore = false;
 
+    //SFX
+    public AudioSource source;
+    public AudioClip[] sounds;
+
     // Start is called before the first frame update
     void Start()
     {
+        source = gameObject.GetComponent<AudioSource>();
+
         //top left to top right
         float counter = -3.0f;
         while(counter <= 3)
@@ -71,6 +77,9 @@ public class Draw : MonoBehaviour
             //only call function once left mouse button is clicked
             if (Input.GetMouseButtonDown(0))
             {
+                //SFX
+                source.clip = sounds[Random.Range(0, sounds.Length)];
+                source.Play();
                 CreateLine();
             }
             //and while it's being held down

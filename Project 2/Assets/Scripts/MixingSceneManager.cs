@@ -84,30 +84,31 @@ public class MixingSceneManager : MonoBehaviour
                     {
                         if (Random.Range(0, 299) == 0)
                         {
-                            stirringDoneAmount = 1f;
-                            switch (manager.recipe.colors[ingredientsAdded - 1])
-                            {
-                                case Colors.Blue:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = Color.blue;
-                                    break;
-                                case Colors.Green:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = Color.green;
-                                    break;
-                                case Colors.Orange:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = new Color32(255, 165, 0, 255);
-                                    break;
-                                case Colors.Purple:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 255, 255);
-                                    break;
-                                case Colors.Red:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = Color.red;
-                                    break;
-                                case Colors.Yellow:
-                                    cauldronObj.GetComponent<SpriteRenderer>().color = Color.yellow;
-                                    break;
-                                default:
-                                    break;
-                            }
+							stirringDoneAmount = 1f;
+							cauldronObj.GetComponent<SpriteRenderer>().color = manager.recipe.colors[ingredientsAdded - 1];
+                            //switch (manager.recipe.colors[ingredientsAdded - 1])
+                            //{
+                            //    case Colors.Blue:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = Color.blue;
+                            //        break;
+                            //    case Colors.Green:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = Color.green;
+                            //        break;
+                            //    case Colors.Orange:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = new Color32(255, 165, 0, 255);
+                            //        break;
+                            //    case Colors.Purple:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 255, 255);
+                            //        break;
+                            //    case Colors.Red:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = Color.red;
+                            //        break;
+                            //    case Colors.Yellow:
+                            //        cauldronObj.GetComponent<SpriteRenderer>().color = Color.yellow;
+                            //        break;
+                            //    default:
+                            //        break;
+                            //}
                             if (manager.mixingScenePlayed)
                             {
                                 if(ingredientsAdded == 1)

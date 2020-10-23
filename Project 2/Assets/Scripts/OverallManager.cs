@@ -28,6 +28,8 @@ public class OverallManager : MonoBehaviour
 	public Text timeText;
 	public bool lightScenePlayed = false;
 	public bool mixingScenePlayed = false;
+	public Image Game1Image, Game2Image, Game3Image;
+	public Image stepArrow1, stepArrow2, stepArrow3;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -63,7 +65,19 @@ public class OverallManager : MonoBehaviour
 		curMinigame = 0;
 		timer = 0f;
 		recipe.FillRecipe();
+		updateUI();
 		playMinigame(recipe.ingredients[curMinigame]);
+	}
+
+	void updateUI() {
+		Game1Image.sprite = recipe.ingredients[0].GetComponent<SpriteRenderer>().sprite;
+		Game2Image.sprite = recipe.ingredients[1].GetComponent<SpriteRenderer>().sprite;
+		Game3Image.sprite = recipe.ingredients[2].GetComponent<SpriteRenderer>().sprite;
+
+		stepArrow1.color = recipe.colors[0];
+		stepArrow2.color = recipe.colors[1];
+		stepArrow3.color = recipe.colors[2];
+
 	}
 
 	public void EndPotion()
@@ -169,22 +183,7 @@ public class OverallManager : MonoBehaviour
 		{
 			Destroy(activeMinigame.GetChild(c).gameObject);
 		}
-		trackerArrow.enabled = true;
-		switch (curMinigame)
-		{
-			case 0:
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -300, 0);
-				break;
-			case 1:
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 0, 0);
-				break;
-			case 2:
-				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 300, 0);
-				break;
-			default:
-				trackerArrow.enabled = false;
-				break;
-		}
+
 		switch (state) {
 			case MiniGameState.LightGame:
 				//Debug.Log(1);
@@ -212,6 +211,36 @@ public class OverallManager : MonoBehaviour
 				break;
 			default:
 				//Debug.Log(0);
+				break;
+		}
+
+		updateTrackerArrow();
+	}
+
+	void updateTrackerArrow() {
+		trackerArrow.enabled = true;
+		switch (curMinigame)
+		{
+			case 0:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -373, 0);
+				break;
+			case 1:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, -129, 0);
+				break;
+			case 2:
+				trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 112, 0);
+				break;
+			default:
+				if (state == MiniGameState.MixingGame)
+				{
+					trackerArrow.rectTransform.anchoredPosition = new Vector3(trackerArrow.rectTransform.anchoredPosition.x, 360, 0);
+
+				}
+				else
+				{
+					trackerArrow.enabled = false;
+				}
+
 				break;
 		}
 	}

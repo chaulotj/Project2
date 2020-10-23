@@ -99,18 +99,6 @@ MonoBehaviour:
   percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 44d5398ba9ca275409239c19eb060638, type: 3}
   startImage: {fileID: 21300000, guid: 698e1c6dc5c0ed143baeb5661bc90f56, type: 3}
-  score: 0
-  clickCounter: 0
-  dustColor: {r: 0, g: 0, b: 0, a: 0}
-  s_renderer: {fileID: 0}
-  ps: {fileID: 0}
-  marker: {fileID: 0}
-  tempMarker: {fileID: 0}
-  height: 0
-  width: 0
-  points: []
-  mouseClickPos: {x: 0, y: 0, z: 0}
-  distance: 0
 --- !u!61 &-3863715089661906185
 BoxCollider2D:
   m_ObjectHideFlags: 0

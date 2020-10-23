@@ -6,7 +6,7 @@ public enum Colors { Green, Red, Blue, Yellow, Orange, Purple }
 
 public class Recipe : MonoBehaviour
 {
-    public Colors[] colors; //Make sure there are three
+    public Color[] colors; //Make sure there are three
     public Ingredient[] ingredients; //Make sure there are three
     public List<Ingredient> fullIngredientList; //Every ingredient
     // Start is called before the first frame update
@@ -54,30 +54,29 @@ public class Recipe : MonoBehaviour
             switch (initialList[c])
             {
                 case 0:
-                    colors[c] = Colors.Green;
+                    colors[c] = Color.green;
                     break;
                 case 1:
-                    colors[c] = Colors.Red;
+                    colors[c] = Color.red;
                     break;
                 case 2:
-                    colors[c] = Colors.Blue;
+                    colors[c] = Color.blue;
                     break;
                 case 3:
-                    colors[c] = Colors.Yellow;
+                    colors[c] = Color.yellow;
                     break;
                 case 4:
-                    colors[c] = Colors.Orange;
+                    colors[c] = new Color(1.0f, 0.64f, 0.0f); //orange
                     break;
                 case 5:
-                    colors[c] = Colors.Purple;
+					colors[c] = new Color(0.5f, 0.0f, 0.5f); //purple
                     break;
                 default:
                     break;
             }
             Ingredient temp = new Ingredient();
-            temp = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
+            temp = fullIngredientList[5];
             ingredients[c] = temp;
         }
-
     }
 }

@@ -69,11 +69,11 @@ public class LightSceneManager : MonoBehaviour
                 }
                 if(c % 2 == 0)
                 {
-                    curPos.y = ingredientObj.GetComponent<Collider2D>().bounds.extents.y + .5f;
+                    curPos.y = ingredientObj.GetComponent<Collider2D>().bounds.extents.y + .8f;
                 }
                 else
                 {
-                    curPos.y = -ingredientObj.GetComponent<Collider2D>().bounds.extents.y - .5f;
+                    curPos.y = -ingredientObj.GetComponent<Collider2D>().bounds.extents.y - .8f;
                 }
                 curPos.x += arrow.GetComponent<Collider2D>().bounds.extents.x;
                 curPos.y += arrow.GetComponent<Collider2D>().bounds.extents.y;
@@ -138,6 +138,10 @@ public class LightSceneManager : MonoBehaviour
                     fourPoints[2] = collider.bounds.extents.x * .2f;
                     fourPoints[1] = fourPoints[2] * -1f;
                     fourPoints[0] = fourPoints[3] * -1f;
+                    for(int c = 0; c < 4; c++)
+                    {
+                        fourPoints[c] += ingredientObj.GetComponent<Collider2D>().offset.x;
+                    }
                     float diff = collider.bounds.extents.x * .4f;
                     bool[] visited = new bool[4];
                     for (int c = 0; c < 4; c++)
@@ -170,7 +174,11 @@ public class LightSceneManager : MonoBehaviour
                             visited[minDistIndex] = true;
                             float dist1 = Mathf.Abs(points[i1].x - fourPoints[minDistIndex]);
                             float dist2 = Mathf.Abs(points[i2].x - fourPoints[minDistIndex]);
-                            float scoreRemoval = ((dist1 / diff) + (dist2 / diff)) / 8;
+                            float scoreRemoval = ((dist1 / diff) + (dist2 / diff)) / 32;
+                            if(scoreRemoval <= .04f)
+                            {
+                                scoreRemoval = 0f;
+                            }
                             if (scoreRemoval > .25f)
                             {
                                 scoreRemoval = .25f;
@@ -179,6 +187,7 @@ public class LightSceneManager : MonoBehaviour
                         }
                         else
                         {
+                            Debug.Log("Lost Line");
                             score -= .25f;
                         }
                     }
@@ -192,7 +201,7 @@ public class LightSceneManager : MonoBehaviour
             if (timing)
             {
                 Time.timeScale = 0;
-                revealTimer += .01f;
+                revealTimer += .005f;
                 if (revealTimer > 3f)
                 {
                     timing = false;

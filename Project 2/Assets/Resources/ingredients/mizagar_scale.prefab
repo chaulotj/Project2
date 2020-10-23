@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 13
-  percentageGrade: 0.58743626
+  percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 3707871b48a36fb458a76d34657cc643, type: 3}
   startImage: {fileID: 21300000, guid: b354053f7f13162468abec5a340162c3, type: 3}
 --- !u!61 &8960714907476235631
@@ -123,5 +123,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.2, y: 4.2}
+  m_Size: {x: 4.1, y: 4.1}
   m_EdgeRadius: 0

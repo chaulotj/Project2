@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 3
-  percentageGrade: 0.47230217
+  percentageGrade: 0
   finishedImage: {fileID: 21300000, guid: 08d8237bffb2fd5469d05f031ffcb75e, type: 3}
   startImage: {fileID: 21300000, guid: 8a5e3802d3ad0214f9adca2fa7bdbc16, type: 3}
 --- !u!61 &-1688729270190844689

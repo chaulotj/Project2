@@ -140,6 +140,7 @@ public class OverallManager : MonoBehaviour
 	//}
 
 	public void playMinigame(Ingredient ingredient = null) {
+        recipe.ResetIngredients();
         if(ingredient is LiquidIngredient)
         {
             state = MiniGameState.LiquidGame;

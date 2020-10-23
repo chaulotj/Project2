@@ -98,7 +98,7 @@ public class LiquidSceneManager : MonoBehaviour
             if (timing)
             {
                 Time.timeScale = 0;
-                revealTimer += .01f;
+                revealTimer += .005f;
                 if (revealTimer > 3f)
                 {
                     timing = false;

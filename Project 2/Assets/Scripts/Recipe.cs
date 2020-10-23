@@ -21,8 +21,18 @@ public class Recipe : MonoBehaviour
         
     }
 
+    public void ResetIngredients()
+    {
+        foreach (Ingredient i in fullIngredientList)
+        {
+            i.GetComponent<SpriteRenderer>().sprite = i.startImage;
+            i.percentageGrade = 0f;
+        }
+    }
+
     public void FillRecipe()
     {
+        ResetIngredients();
         int[] initialList = new int[6];
         for(int c = 0; c < 6; c++)
         {
@@ -64,7 +74,9 @@ public class Recipe : MonoBehaviour
                 default:
                     break;
             }
-            ingredients[c] = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
+            Ingredient temp = new Ingredient();
+            temp = fullIngredientList[Random.Range(0, fullIngredientList.Count)];
+            ingredients[c] = temp;
         }
 
     }

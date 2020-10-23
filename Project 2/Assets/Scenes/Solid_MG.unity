@@ -379,6 +379,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1865425883269579461, guid: 2336f451a82d29a4f9f7dbe898384016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -53
+      objectReference: {fileID: 0}
+    - target: {fileID: 1865425883269579461, guid: 2336f451a82d29a4f9f7dbe898384016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1865425883392916547, guid: 2336f451a82d29a4f9f7dbe898384016,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -464,6 +474,11 @@ PrefabInstance:
       propertyPath: sounds.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 6ac21b1e3ba69da4099ba23bf4e14be9, type: 3}
+    - target: {fileID: 1865425884632173483, guid: 2336f451a82d29a4f9f7dbe898384016,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 295
+      objectReference: {fileID: 0}
     - target: {fileID: 1865425884855343712, guid: 2336f451a82d29a4f9f7dbe898384016,
         type: 3}
       propertyPath: m_Camera

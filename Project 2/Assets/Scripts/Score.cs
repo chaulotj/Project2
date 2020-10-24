@@ -28,6 +28,7 @@ public class Score : MonoBehaviour
     //make text visible
     public void DisplayText()
     {
+        script.sprite.sprite = script.ingredient.finishedImage;
         displayText.text = "Score:   " + script.scoreFin;
     }
 }

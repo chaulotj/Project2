@@ -6,7 +6,7 @@ public class Draw : MonoBehaviour
 {
     //for drawing line objects
     public GameObject lineGO;
-    public GameObject currLine;
+    //public GameObject currLine;
     public LineRenderer lineRenderer;
     public EdgeCollider2D edgeCollider;
 
@@ -27,9 +27,22 @@ public class Draw : MonoBehaviour
     private bool timing;
     private float revealTimer;
 
+    public OverallManager manager;
+    public SolidIngredient ingredient;
+    public SpriteRenderer sprite;
+    private List<GameObject> lines;
+    int lineCount;
+
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
+        ingredient = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0, 0, 1), Quaternion.identity, manager.activeMinigame) as SolidIngredient;
+        sprite = ingredient.GetComponent<SpriteRenderer>();
+
+        lines = new List<GameObject>();
+        lineCount =0;
+
         source = gameObject.GetComponent<AudioSource>();
 
         //top left to top right
@@ -112,14 +125,25 @@ public class Draw : MonoBehaviour
                     timing = false;
                 }
             }
+            if (showScore && Input.GetKeyDown(KeyCode.Space))
+            {
+                foreach(GameObject line in lines)
+                {
+                    Destroy(line);
+                }
+                playNext();
+            }
         }
     }
 
     void CreateLine()
     {
-        currLine = Instantiate(lineGO, Vector3.zero, Quaternion.identity);
-        lineRenderer = currLine.GetComponent<LineRenderer>();
-        edgeCollider = currLine.GetComponent<EdgeCollider2D>();
+
+        lines.Add(Instantiate(lineGO, Vector3.zero, Quaternion.identity));
+
+        lineRenderer = lines[lineCount].GetComponent<LineRenderer>();
+        edgeCollider = lines[lineCount].GetComponent<EdgeCollider2D>();
+        lineCount++;
 
         //user input
         mousePositions.Clear();
@@ -169,5 +193,19 @@ public class Draw : MonoBehaviour
         }
 
         return score;
+    }
+
+    void playNext()
+    {
+        timing = false;
+        manager.curMinigame++;
+        if (manager.curMinigame == 3)
+        {
+            manager.playMinigame();
+        }
+        else
+        {
+            manager.playMinigame(manager.recipe.ingredients[manager.curMinigame]);
+        }
     }
 }

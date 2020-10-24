@@ -174,8 +174,8 @@ public class LightSceneManager : MonoBehaviour
                             visited[minDistIndex] = true;
                             float dist1 = Mathf.Abs(points[i1].x - fourPoints[minDistIndex]);
                             float dist2 = Mathf.Abs(points[i2].x - fourPoints[minDistIndex]);
-                            float scoreRemoval = ((dist1 / diff) + (dist2 / diff)) / 32;
-                            if(scoreRemoval <= .04f)
+                            float scoreRemoval = ((dist1 / diff) + (dist2 / diff)) / 24;
+                            if(scoreRemoval <= .02f)
                             {
                                 scoreRemoval = 0f;
                             }
@@ -187,7 +187,6 @@ public class LightSceneManager : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("Lost Line");
                             score -= .25f;
                         }
                     }

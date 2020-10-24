@@ -23,13 +23,14 @@ public class OverallManager : MonoBehaviour
 	public int curMinigame;
 	public float[] scores;
 	public float timer;
-	private float timerCutoff = 35f;
-	private float timerLimit  = 70f;
+	private float timerCutoff = 60f;
+	private float timerLimit  = 120f;
 	public Text timeText;
 	public bool lightScenePlayed = false;
 	public bool mixingScenePlayed = false;
 	public Image Game1Image, Game2Image, Game3Image;
 	public Image stepArrow1, stepArrow2, stepArrow3;
+    public Text scoreText;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -86,7 +87,8 @@ public class OverallManager : MonoBehaviour
 		{
 			potionScore += recipe.ingredients[c].percentageGrade;
 		}
-		potionScore /= 4;
+        Debug.Log(potionScore);
+        potionScore /= 4;
 		if(timer > timerCutoff)
 		{
 			float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
@@ -94,10 +96,16 @@ public class OverallManager : MonoBehaviour
 			{
 				temp = 0;
 			}
+            if(temp > 1)
+            {
+                temp = 1;
+            }
 			potionScore *= temp;
 		}
-		scores[curPotion] = potionScore;
+        Debug.Log(potionScore);
+        scores[curPotion] = potionScore;
 		curPotion++;
+        scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
 		if (curPotion == 10)
 		{
 			float finalTotal = 0;

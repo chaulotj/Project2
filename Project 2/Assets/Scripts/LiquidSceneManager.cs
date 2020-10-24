@@ -71,7 +71,7 @@ public class LiquidSceneManager : MonoBehaviour
                 {
                     anvilObj.transform.position = new Vector3(anvilObj.transform.position.x, ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y + anvilCollider.bounds.extents.y, anvilObj.transform.position.z);
                     float dist = ingredientCollider.bounds.extents.x + anvilCollider.bounds.extents.x;
-                    ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x - dist) / dist;
+                    ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x - .19f - dist) / dist;
                     if (ingredientObj.percentageGrade > 1f)
                     {
                         if (ingredientObj.percentageGrade >= 2f)

@@ -1385,6 +1385,7 @@ MonoBehaviour:
   stepArrow1: {fileID: 2082429095}
   stepArrow2: {fileID: 1045961310}
   stepArrow3: {fileID: 957767341}
+  scoreText: {fileID: 1639787414}
   state: 0
 --- !u!4 &1591889817
 Transform:

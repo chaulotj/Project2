@@ -35,13 +35,13 @@ public class MixingSceneManager : MonoBehaviour
         carryingIngredient = false;
         score = 1f;
         ingredientObjs = new Ingredient[3];
-        cauldronObj = Instantiate(cauldron, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
-        cauldronObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        cauldronObj = Instantiate(cauldron, new Vector3(0.0f, -1.8f, 0.0f), Quaternion.identity, manager.activeMinigame) as GameObject;
+        cauldronObj.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
         ladleObj = Instantiate(ladle, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
         ladleObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity, manager.activeMinigame) as GameObject;
-        GameObject otherCauldronObj = Instantiate(otherCauldron, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
-        otherCauldronObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        GameObject otherCauldronObj = Instantiate(otherCauldron, new Vector3(0.0f, -1.8f, 0.0f), Quaternion.identity, manager.activeMinigame) as GameObject;
+        otherCauldronObj.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
         for (int c = 0; c < 3; c++)
         {
             ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity, manager.activeMinigame) as Ingredient;
@@ -65,6 +65,7 @@ public class MixingSceneManager : MonoBehaviour
     {
         if (!OverallManager.paused)
         {
+            Debug.Log(Time.timeScale);
             if (timing)
             {
                 Time.timeScale = 0;
@@ -89,10 +90,11 @@ public class MixingSceneManager : MonoBehaviour
                     lastPos = mousePos;
                     if (stirringDoneAmount == 0)
                     {
-                        if (Random.Range(0, 299) == 0)
+                        Debug.Log("You suck");
+                        if (Random.Range(0, 120) == 0)
                         {
-							stirringDoneAmount = 1f;
-							cauldronObj.GetComponent<SpriteRenderer>().color = manager.recipe.colors[ingredientsAdded - 1];
+                            stirringDoneAmount = 1f;
+                            cauldronObj.GetComponent<SpriteRenderer>().color = manager.recipe.colors[ingredientsAdded - 1];
                             //switch (manager.recipe.colors[ingredientsAdded - 1])
                             //{
                             //    case Colors.Blue:
@@ -116,22 +118,23 @@ public class MixingSceneManager : MonoBehaviour
                             //    default:
                             //        break;
                             //}
-                            if (manager.mixingScenePlayed)
+                            if (!manager.mixingScenePlayed)
                             {
-                                if(ingredientsAdded == 1)
+                                if (ingredientsAdded == 1)
                                 {
                                     helpText.text = "Add the second ingredient";
                                 }
-                                else if(ingredientsAdded == 2)
+                                else if (ingredientsAdded == 2)
                                 {
                                     helpText.text = "Add the third ingredient";
                                 }
-                                else if(ingredientsAdded == 3)
+                                else if (ingredientsAdded == 3)
                                 {
                                     helpText.text = "Hit the done button";
                                     manager.mixingScenePlayed = true;
                                 }
                             }
+                        }
                     }
                     else
                     {
@@ -162,14 +165,16 @@ public class MixingSceneManager : MonoBehaviour
                 }
                 else if (carryingIngredient)
                 {
+                    if (cauldronObj.GetComponent<Collider2D>().bounds.Contains(mousePos))
+                    {
                         AudioSource.PlayClipAtPoint(splash, ladleObj.transform.position);
-                        if (manager.mixingScenePlayed)
+                        if (!manager.mixingScenePlayed)
                         {
                             if (ingredientsAdded == 0)
                             {
                                 helpText.text = "Stir until the potion's color is the same as the first one in the recipe.";
                             }
-                            else if(ingredientsAdded == 1)
+                            else if (ingredientsAdded == 1)
                             {
                                 helpText.text = "Stir until the potion's color is the same as the second one in the recipe.";
                             }
@@ -178,7 +183,7 @@ public class MixingSceneManager : MonoBehaviour
                                 helpText.text = "Stir until the potion's color is the same as the third one in the recipe.";
                             }
                         }
-                                lastPos = new Vector2(10000, 10000);
+                        lastPos = new Vector2(10000, 10000);
                         if (manager.recipe.ingredients[ingredientsAdded].id != carriedIngredient.id)
                         {
                             score -= 1.0f / 3.0f;
@@ -234,6 +239,7 @@ public class MixingSceneManager : MonoBehaviour
                     }
                 }
             }
+            
         }
     }
 }

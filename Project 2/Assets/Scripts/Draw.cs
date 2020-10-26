@@ -18,7 +18,7 @@ public class Draw : MonoBehaviour
     //temporary vect for loops
     Vector2 temp;
 
-    public int scoreFin = 0;
+    public float scoreFin = 0;
     public bool showScore = false;
 
     //SFX
@@ -112,7 +112,11 @@ public class Draw : MonoBehaviour
             {
                 timing = true;
                 scoreFin = ScorePath();
+                scoreFin /= 100;
                 Debug.Log("ScoreFin: " + scoreFin);
+
+                ingredient.percentageGrade = scoreFin;
+                manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredient.percentageGrade;
                 showScore = true;
             }
             if (timing)
@@ -177,7 +181,7 @@ public class Draw : MonoBehaviour
                     //within range - y
                     if (intendedPt.y - .1 < mousePt.y && mousePt.y < intendedPt.y + .1)
                     {
-                        score += 5;
+                        score += 10;
                     }
                     else
                     {
@@ -191,7 +195,14 @@ public class Draw : MonoBehaviour
                 
             }
         }
-
+        if (score > 100)
+        {
+            int cut = score / 100;
+            Debug.Log("Cut: " + cut);
+            score /= cut;
+            Debug.Log("Score/cut: " + score);
+        }
+        Debug.Log("Fin score: " + score);
         return score;
     }
 

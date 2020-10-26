@@ -133,7 +133,7 @@ public class OverallManager : MonoBehaviour
 		timer += Time.deltaTime;
 		timeText.text = "Time: " + (int)timer;
 		//checkGameState();
-		Debug.Log(paused);
+		//Debug.Log(paused);
 	}
 
 	public static void Pause()

@@ -30,7 +30,7 @@ public class OverallManager : MonoBehaviour
 	public bool mixingScenePlayed = false;
 	public Image Game1Image, Game2Image, Game3Image;
 	public Image stepArrow1, stepArrow2, stepArrow3;
-    public Text scoreText;
+	public Text scoreText;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -55,10 +55,10 @@ public class OverallManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-        scores = new float[10];
-        curPotion = 0;
-        paused = false;
-        StartGame();
+		scores = new float[10];
+		curPotion = 0;
+		paused = false;
+		StartGame();
 	}
 
 	void StartGame()
@@ -78,7 +78,6 @@ public class OverallManager : MonoBehaviour
 		stepArrow1.color = recipe.colors[0];
 		stepArrow2.color = recipe.colors[1];
 		stepArrow3.color = recipe.colors[2];
-
 	}
 
 	public void EndPotion()
@@ -87,8 +86,8 @@ public class OverallManager : MonoBehaviour
 		{
 			potionScore += recipe.ingredients[c].percentageGrade;
 		}
-        Debug.Log(potionScore);
-        potionScore /= 4;
+		Debug.Log(potionScore);
+		potionScore /= 4;
 		if(timer > timerCutoff)
 		{
 			float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
@@ -96,16 +95,16 @@ public class OverallManager : MonoBehaviour
 			{
 				temp = 0;
 			}
-            if(temp > 1)
-            {
-                temp = 1;
-            }
+			if(temp > 1)
+			{
+				temp = 1;
+			}
 			potionScore *= temp;
 		}
-        Debug.Log(potionScore);
-        scores[curPotion] = potionScore;
+		Debug.Log(potionScore);
+		scores[curPotion] = potionScore;
 		curPotion++;
-        scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
+		scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
 		if (curPotion == 10)
 		{
 			float finalTotal = 0;
@@ -162,7 +161,7 @@ public class OverallManager : MonoBehaviour
 	//}
 
 	public void playMinigame(Ingredient ingredient = null) {
-        updateUI();
+		updateUI();
 		//recipe.ResetIngredients();
 		if(ingredient is LiquidIngredient)
 		{

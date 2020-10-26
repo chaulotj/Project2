@@ -24,7 +24,7 @@ public class LiquidSceneManager : MonoBehaviour
         anvilObj = Instantiate(anvil, new Vector3(Random.Range(-8.0f, 8.0f), 5, -1), Quaternion.identity, manager.activeMinigame) as GameObject;
         anvilCollider = anvilObj.GetComponent<Collider2D>();
         ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0, -4, 0), Quaternion.identity, manager.activeMinigame) as LiquidIngredient;
-        ingredientObj.transform.localScale = new Vector3(.4f, .4f, .4f);
+        ingredientObj.transform.localScale = new Vector3(.5f, .5f, .5f);
         ingredientCollider = ingredientObj.GetComponent<Collider2D>();
         xAccel = 0f;
         update = true;

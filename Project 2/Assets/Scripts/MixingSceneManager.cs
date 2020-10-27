@@ -16,8 +16,6 @@ public class MixingSceneManager : MonoBehaviour
     private GameObject ladleObj;
     private bool carryingIngredient;
     private Ingredient carriedIngredient;
-    public GameObject doneButton;
-    private GameObject doneButtonObj;
     private float stirringDoneAmount;
     private Vector2 lastPos;
     public Text scoreText;
@@ -26,7 +24,8 @@ public class MixingSceneManager : MonoBehaviour
     private AudioSource source;
     private bool timing;
     private float revealTimer;
-    public Text helpText;
+    float potionScoreAmount;
+    private bool canClickDone;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,15 +35,13 @@ public class MixingSceneManager : MonoBehaviour
         score = 1f;
         ingredientObjs = new Ingredient[3];
         cauldronObj = Instantiate(cauldron, new Vector3(0.0f, -1.8f, 0.0f), Quaternion.identity, manager.activeMinigame) as GameObject;
-        cauldronObj.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
+        cauldronObj.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
         ladleObj = Instantiate(ladle, Vector3.zero, Quaternion.identity, manager.activeMinigame) as GameObject;
-        ladleObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
-        doneButtonObj = Instantiate(doneButton, new Vector3(-8, -4, 0), Quaternion.identity, manager.activeMinigame) as GameObject;
         GameObject otherCauldronObj = Instantiate(otherCauldron, new Vector3(0.0f, -1.8f, 0.0f), Quaternion.identity, manager.activeMinigame) as GameObject;
-        otherCauldronObj.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
+        otherCauldronObj.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
         for (int c = 0; c < 3; c++)
         {
-            ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(8, 4 - (c * 4), 0), Quaternion.identity, manager.activeMinigame) as Ingredient;
+            ingredientObjs[c] = Instantiate(manager.recipe.ingredients[c], new Vector3(-8, 2 - (c * 2), 0), Quaternion.identity, manager.activeMinigame) as Ingredient;
             ingredientObjs[c].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         }
         stirringDoneAmount = 0f;
@@ -53,11 +50,8 @@ public class MixingSceneManager : MonoBehaviour
         source.Play();
         timing = false;
         revealTimer = 0f;
-        if (manager.mixingScenePlayed)
-        {
-            helpText.enabled = true;
-            helpText.text = "Click on the first ingredient in the recipe to pick it up, then click again over the cauldron to add it";
-        }
+        potionScoreAmount = 0f;
+        canClickDone = true;
     }
 
     // Update is called once per frame
@@ -65,7 +59,6 @@ public class MixingSceneManager : MonoBehaviour
     {
         if (!OverallManager.paused)
         {
-            Debug.Log(Time.timeScale);
             if (timing)
             {
                 Time.timeScale = 0;
@@ -90,9 +83,10 @@ public class MixingSceneManager : MonoBehaviour
                     lastPos = mousePos;
                     if (stirringDoneAmount == 0)
                     {
-                        Debug.Log("You suck");
-                        if (Random.Range(0, 120) == 0)
+                        potionScoreAmount += Time.deltaTime;
+                        if (potionScoreAmount > .1f)
                         {
+                            potionScoreAmount = 0f;
                             stirringDoneAmount = 1f;
                             cauldronObj.GetComponent<SpriteRenderer>().color = manager.recipe.colors[ingredientsAdded - 1];
                             //switch (manager.recipe.colors[ingredientsAdded - 1])
@@ -118,71 +112,41 @@ public class MixingSceneManager : MonoBehaviour
                             //    default:
                             //        break;
                             //}
-                            if (!manager.mixingScenePlayed)
-                            {
-                                if (ingredientsAdded == 1)
-                                {
-                                    helpText.text = "Add the second ingredient";
-                                }
-                                else if (ingredientsAdded == 2)
-                                {
-                                    helpText.text = "Add the third ingredient";
-                                }
-                                else if (ingredientsAdded == 3)
-                                {
-                                    helpText.text = "Hit the done button";
-                                    manager.mixingScenePlayed = true;
-                                }
-                            }
                         }
                     }
                     else
                     {
-                        stirringDoneAmount += Time.deltaTime;
+                        stirringDoneAmount += Time.deltaTime * 3;
                     }
                 }
             }
+            if (Input.GetKeyDown(KeyCode.Space) && canClickDone)
+            {
+                AudioSource.PlayClipAtPoint(tick, ladleObj.transform.position);
+                float scoreReduction = Mathf.Abs(stirringDoneAmount - 1.0f) / 3.0f;
+                if (scoreReduction > 1.0f / 3.0f)
+                {
+                    scoreReduction = 1.0f / 3.0f;
+                }
+                score -= scoreReduction;
+                score -= (float)(3.0f - ingredientsAdded) / 3.0f;
+                if (score < 0f)
+                {
+                    score = 0f;
+                }
+                scoreText.enabled = true;
+                scoreText.text = "Score: " + (int)(score * 100) + "%";
+                timing = true;
+                manager.mixingScore = score;
+                canClickDone = false;
+            }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                if (doneButtonObj.GetComponent<Collider2D>().bounds.Contains(mousePos))
-                {
-                    AudioSource.PlayClipAtPoint(tick, ladleObj.transform.position);
-                    float scoreReduction = Mathf.Abs(stirringDoneAmount - 1.0f) / 3.0f;
-                    if (scoreReduction > 1.0f / 3.0f)
-                    {
-                        scoreReduction = 1.0f / 3.0f;
-                    }
-                    score -= scoreReduction;
-                    score -= (float)(3.0f - ingredientsAdded) / 3.0f;
-                    if (score < 0f)
-                    {
-                        score = 0f;
-                    }
-                    scoreText.enabled = true;
-                    scoreText.text = "Score: " + (int)(score * 100) + "%";
-                    timing = true;
-                    manager.potionScore += score;
-                }
-                else if (carryingIngredient)
+                if (carryingIngredient)
                 {
                     if (cauldronObj.GetComponent<Collider2D>().bounds.Contains(mousePos))
                     {
                         AudioSource.PlayClipAtPoint(splash, ladleObj.transform.position);
-                        if (!manager.mixingScenePlayed)
-                        {
-                            if (ingredientsAdded == 0)
-                            {
-                                helpText.text = "Stir until the potion's color is the same as the first one in the recipe.";
-                            }
-                            else if (ingredientsAdded == 1)
-                            {
-                                helpText.text = "Stir until the potion's color is the same as the second one in the recipe.";
-                            }
-                            else if (ingredientsAdded == 2)
-                            {
-                                helpText.text = "Stir until the potion's color is the same as the third one in the recipe.";
-                            }
-                        }
                         lastPos = new Vector2(10000, 10000);
                         if (manager.recipe.ingredients[ingredientsAdded].id != carriedIngredient.id)
                         {

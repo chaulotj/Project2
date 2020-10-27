@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -37,5 +38,11 @@ public class ButtonManager : MonoBehaviour
     public void StartButton()
     {
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void CreditsButton()
+    {
+        Transform temp = GameObject.Find("Canvas").transform.GetChild(6);
+        temp.GetComponent<Text>().enabled = !temp.GetComponent<Text>().enabled;
     }
 }

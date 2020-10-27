@@ -17,14 +17,18 @@ public class LiquidSceneManager : MonoBehaviour
     private OverallManager manager;
     private bool timing;
     private float revealTimer;
+    public GameObject shadow;
+    private GameObject shadowObj;
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.Find("GameManager").GetComponent<OverallManager>();
-        anvilObj = Instantiate(anvil, new Vector3(Random.Range(-8.0f, 8.0f), 5, -1), Quaternion.identity, manager.activeMinigame) as GameObject;
+        anvilObj = Instantiate(anvil, new Vector3(Random.Range(-6.0f, 6.0f), 5, -1), Quaternion.identity, manager.activeMinigame) as GameObject;
+        shadowObj = Instantiate(shadow, anvilObj.transform.position, Quaternion.identity, manager.activeMinigame) as GameObject;
+        shadowObj.transform.localScale = new Vector3(0.05f, 0.05f, 1f);
         anvilCollider = anvilObj.GetComponent<Collider2D>();
         ingredientObj = Instantiate(manager.recipe.ingredients[manager.curMinigame], new Vector3(0, -4, 0), Quaternion.identity, manager.activeMinigame) as LiquidIngredient;
-        ingredientObj.transform.localScale = new Vector3(.5f, .5f, .5f);
+        ingredientObj.transform.localScale = new Vector3(.3f, .3f, .3f);
         ingredientCollider = ingredientObj.GetComponent<Collider2D>();
         xAccel = 0f;
         update = true;
@@ -39,6 +43,16 @@ public class LiquidSceneManager : MonoBehaviour
         {
             if (update)
             {
+                if (shadowObj != null)
+                {
+                    shadowObj.transform.position = new Vector3(anvilObj.transform.position.x, -4.5f, .5f);
+                    float scaleThing = (Mathf.Abs(6.0f - shadowObj.transform.position.y) / 10f) + .05f;
+                    shadowObj.transform.localScale = new Vector3(scaleThing, scaleThing, 1f);
+                    if (anvilObj.transform.position.y < -3.5f)
+                    {
+                        Destroy(shadowObj);
+                    }
+                }
                 if (anvilObj.transform.position.y - anvilCollider.bounds.extents.y > ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y)
                 {
                     Vector3 newPosition = anvilObj.transform.position;
@@ -71,7 +85,7 @@ public class LiquidSceneManager : MonoBehaviour
                 {
                     anvilObj.transform.position = new Vector3(anvilObj.transform.position.x, ingredientObj.transform.position.y - ingredientCollider.bounds.extents.y + anvilCollider.bounds.extents.y, anvilObj.transform.position.z);
                     float dist = ingredientCollider.bounds.extents.x + anvilCollider.bounds.extents.x;
-                    ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x - .19f - dist) / dist;
+                    ingredientObj.percentageGrade = Mathf.Abs(anvilObj.transform.position.x + .12f - dist) / dist;
                     if (ingredientObj.percentageGrade > 1f)
                     {
                         if (ingredientObj.percentageGrade >= 2f)

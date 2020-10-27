@@ -23,14 +23,14 @@ public class OverallManager : MonoBehaviour
 	public int curMinigame;
 	public float[] scores;
 	public float timer;
-	private float timerCutoff = 60f;
-	private float timerLimit  = 120f;
+    private float timerCutoff;
+    private float timerLimit;
 	public Text timeText;
 	public bool lightScenePlayed = false;
-	public bool mixingScenePlayed = false;
 	public Image Game1Image, Game2Image, Game3Image;
 	public Image stepArrow1, stepArrow2, stepArrow3;
 	public Text scoreText;
+    public float mixingScore;
 
 	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
 	public MiniGameState state;
@@ -68,6 +68,8 @@ public class OverallManager : MonoBehaviour
 		recipe.FillRecipe();
 		updateUI();
 		playMinigame(recipe.ingredients[curMinigame]);
+        timerCutoff = 60f;
+        timerLimit = 120f;
 	}
 
 	void updateUI() {
@@ -82,12 +84,13 @@ public class OverallManager : MonoBehaviour
 
 	public void EndPotion()
 	{
+        Time.timeScale = 1;
 		for(int c = 0; c < 3; c++)
 		{
 			potionScore += recipe.ingredients[c].percentageGrade;
 		}
-		Debug.Log(potionScore);
-		potionScore /= 4;
+		potionScore /= 3;
+        potionScore *= mixingScore;
 		if(timer > timerCutoff)
 		{
 			float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
@@ -101,18 +104,18 @@ public class OverallManager : MonoBehaviour
 			}
 			potionScore *= temp;
 		}
-		Debug.Log(potionScore);
 		scores[curPotion] = potionScore;
 		curPotion++;
 		scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
-		if (curPotion == 10)
+        potionScore = 0f;
+		if (curPotion == 3)
 		{
 			float finalTotal = 0;
 			foreach(float f in scores)
 			{
 				finalTotal += f;
 			}
-			finalTotal /= 10;
+			finalTotal /= 3;
 			EndSceneManager.score = finalTotal;
 			SceneManager.LoadScene("EndScene");
 		}

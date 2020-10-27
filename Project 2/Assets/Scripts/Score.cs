@@ -29,7 +29,7 @@ public class Score : MonoBehaviour
     public void DisplayText()
     {
         script.sprite.sprite = script.ingredient.finishedImage;
-        displayText.text = "Score:   " + script.scoreFin * 100 + "%";
+        displayText.text = "Score:   " + (int)(script.scoreFin * 100) + "%";
         displayText.text += "\n" + "Press space to continue!";
     }
 }

@@ -192,11 +192,10 @@ public class HerbSceneManager : MonoBehaviour
                 timeShown = 5;
             }
 
-            if (timer > stage1Time + stage2Time + 5 && isCalculated)
+            if (timer > stage1Time + stage2Time + 1 && isCalculated)
             {
                 keepTimeZero = false;
                 Time.timeScale = 1;
-                manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredient.percentageGrade;
                 manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
                 ingredient.GetComponent<SpriteRenderer>().sprite = manager.recipe.ingredients[manager.curMinigame].finishedImage;
 
@@ -286,7 +285,7 @@ public class HerbSceneManager : MonoBehaviour
     {
         // Local Variables
         // floats
-        float finalGrade = 100;         // Final grade of the mini game
+        float finalGrade = 100f;         // Final grade of the mini game
         float gradeSum = 0;             // The sum of the distances
         float[] grades = new float[4];  // All the grades
 
@@ -308,18 +307,18 @@ public class HerbSceneManager : MonoBehaviour
         // Calculates the grade to subtract assuming at least line was clicked
         if (gradeSum > 0.5f && counter != 0)
         {
-            finalGrade = finalGrade - ((100 / (-3 * gradeSum + 0.5f)) + (25 * counter));
+            finalGrade = finalGrade - ((100f / (-3f * gradeSum + 0.5f)) + (25f * counter));
         }
 
         // Subtracts any missed lines from the total
-        finalGrade = finalGrade - ((100 / playerCutSpots.Count) * (4 - counter));
+        finalGrade = finalGrade - ((100f / playerCutSpots.Count) * (4f - counter));
 
         // Anything that exceeds the min and max will be capped
-        if (finalGrade > 100)
-            finalGrade = 100;
-        if (finalGrade < 0)
-            finalGrade = 0;
-
+        if (finalGrade > 100f)
+            finalGrade = 100f;
+        if (finalGrade < 0f)
+            finalGrade = 0f;
+        manager.recipe.ingredients[manager.curMinigame].percentageGrade = finalGrade / 100f;
         return finalGrade;
     }
 

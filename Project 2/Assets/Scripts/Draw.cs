@@ -18,14 +18,13 @@ public class Draw : MonoBehaviour
     //temporary vect for loops
     Vector2 temp;
 
-    public float scoreFin = 0;
+    public float scoreFin = 0f;
     public bool showScore = false;
 
     //SFX
     public AudioSource source;
     public AudioClip[] sounds;
     private bool timing;
-    private float revealTimer;
 
     public OverallManager manager;
     public SolidIngredient ingredient;
@@ -82,7 +81,6 @@ public class Draw : MonoBehaviour
             //Debug.Log("4" + temp);
         }
         timing = false;
-        revealTimer = 0f;
     }
 
     // Update is called once per frame
@@ -112,8 +110,11 @@ public class Draw : MonoBehaviour
             {
                 timing = true;
                 scoreFin = ScorePath();
-                scoreFin /= 100;
-                Debug.Log("ScoreFin: " + scoreFin);
+                if(scoreFin > 1f)
+                {
+                    scoreFin = 1f;
+                }
+                //scoreFin /= 100;
 
                 ingredient.percentageGrade = scoreFin;
                 manager.recipe.ingredients[manager.curMinigame].percentageGrade = ingredient.percentageGrade;
@@ -121,17 +122,13 @@ public class Draw : MonoBehaviour
             }
             if (timing)
             {
-                revealTimer += Time.unscaledDeltaTime;
                 Time.timeScale = 0f;
-                if(revealTimer > 3f)
-                {
-                    Time.timeScale = 1f;
-                    timing = false;
-                }
             }
             if (showScore && Input.GetKeyDown(KeyCode.Space))
             {
-                foreach(GameObject line in lines)
+                Time.timeScale = 1f;
+                timing = false;
+                foreach (GameObject line in lines)
                 {
                     Destroy(line);
                 }
@@ -167,21 +164,22 @@ public class Draw : MonoBehaviour
         edgeCollider.points = mousePositions.ToArray();
     }
 
-    int ScorePath()
+    float ScorePath()
     {
-        int score = 0;
+       float score = 0f;
         //score line drawn
-        foreach (Vector2 mousePt in mousePositions)
+        foreach (Vector2 intendedPt in squarePath)
         {
-            foreach (Vector2 intendedPt in squarePath)
+            foreach (Vector2 mousePt in mousePositions)
             {
                 //within range - x
-                if(intendedPt.x - .1 < mousePt.x && mousePt.x < intendedPt.x + .1)
+                if(intendedPt.x - .2 < mousePt.x && mousePt.x < intendedPt.x + .2)
                 {
                     //within range - y
-                    if (intendedPt.y - .1 < mousePt.y && mousePt.y < intendedPt.y + .1)
+                    if (intendedPt.y - .2 < mousePt.y && mousePt.y < intendedPt.y + .2)
                     {
-                        score += 10;
+                        score += 1f;
+                        break;
                     }
                     else
                     {
@@ -195,19 +193,21 @@ public class Draw : MonoBehaviour
                 
             }
         }
-        if (score > 100)
-        {
-            int cut = score / 100;
-            Debug.Log("Cut: " + cut);
-            score /= cut;
-            Debug.Log("Score/cut: " + score);
-        }
-        Debug.Log("Fin score: " + score);
+        score /= 84f;
+        //if (score > 100)
+        //{
+        //    float cut = score / 100f;
+        //    Debug.Log("Cut: " + cut);
+        //    score /= cut;
+        //    Debug.Log("Score/cut: " + score);
+        //}
+        //Debug.Log("Fin score: " + score);
         return score;
     }
 
     void playNext()
     {
+        manager.recipe.ingredients[manager.curMinigame].GetComponent<SpriteRenderer>().sprite = sprite.sprite;
         timing = false;
         manager.curMinigame++;
         if (manager.curMinigame == 3)

@@ -6,154 +6,157 @@ using UnityEngine.SceneManagement;
 
 public class OverallManager : MonoBehaviour
 {
-	public Recipe recipe;
-	public float potionScore; //The final score for the current potion
-	public float finalScore; //The finals score after all the potions
-	public int curPotion; 
-	public static bool paused;
+    public Recipe recipe;
+    public float potionScore; //The final score for the current potion
+    public float finalScore; //The finals score after all the potions
+    public int curPotion;
+    public static bool paused;
 
-	public GameObject lightMinigame;
-	public GameObject dustMinigame;
-	public GameObject solidMinigame;
-	public GameObject liquidMinigame;
-	public GameObject plantMinigame;
-	public GameObject mixingMinigame;
-	public Image trackerArrow;
-	public Transform activeMinigame;
-	public int curMinigame;
-	public float[] scores;
-	public float timer;
+    public GameObject lightMinigame;
+    public GameObject dustMinigame;
+    public GameObject solidMinigame;
+    public GameObject liquidMinigame;
+    public GameObject plantMinigame;
+    public GameObject mixingMinigame;
+    public Image trackerArrow;
+    public Transform activeMinigame;
+    public int curMinigame;
+    public float[] scores;
+    public float timer;
     private float timerCutoff;
     private float timerLimit;
-	public Text timeText;
-	public bool lightScenePlayed = false;
-	public Image Game1Image, Game2Image, Game3Image;
-	public Image stepArrow1, stepArrow2, stepArrow3;
-	public Text scoreText;
+    public Text timeText;
+    public bool lightScenePlayed = false;
+    public Image Game1Image, Game2Image, Game3Image;
+    public Image stepArrow1, stepArrow2, stepArrow3;
+    public Text scoreText;
     public float mixingScore;
 
-	public enum MiniGameState {None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame}
-	public MiniGameState state;
+    public enum MiniGameState { None, DustGame, LightGame, LiquidGame, MixingGame, SolidGame, PlantGame }
+    public MiniGameState state;
 
-	public enum Tasks { T_Wet, T_Dust, T_Light, T_Solid, T_Plant };
+    public enum Tasks { T_Wet, T_Dust, T_Light, T_Solid, T_Plant };
 
-	public enum Ingredients
-	{
-		//1-5 are wet
-		//6-10 are dust
-		//11-15 are light
-		//16-20 are solid
-		//21-25 are plants
-		W_Goat, W_Blood, W_Wine, W_Venom, W_Honey,
-		D_Diamond, D_Gold, D_Emerald, D_Bone, D_Goat,
-		L_Gnome, L_Feather, L_Wool, L_Mane, L_Wing,
-		S_Mouse, S_Dragon, S_Unicorn, S_Mizagar, S_Quail,
-		P_Thyme, P_Sage, P_Rosemary, P_FlyTrap, P_Dandelion
-	};
+    public enum Ingredients
+    {
+        //1-5 are wet
+        //6-10 are dust
+        //11-15 are light
+        //16-20 are solid
+        //21-25 are plants
+        W_Goat, W_Blood, W_Wine, W_Venom, W_Honey,
+        D_Diamond, D_Gold, D_Emerald, D_Bone, D_Goat,
+        L_Gnome, L_Feather, L_Wool, L_Mane, L_Wing,
+        S_Mouse, S_Dragon, S_Unicorn, S_Mizagar, S_Quail,
+        P_Thyme, P_Sage, P_Rosemary, P_FlyTrap, P_Dandelion
+    };
 
-	float randomIngredient;
-	// Start is called before the first frame update
-	void Start()
-	{
-		scores = new float[10];
-		curPotion = 0;
-		paused = false;
-		StartGame();
-	}
+    float randomIngredient;
+    // Start is called before the first frame update
+    void Start()
+    {
+        scores = new float[10];
+        curPotion = 0;
+        paused = false;
+        StartGame();
+    }
 
-	void StartGame()
-	{
-		curMinigame = 0;
-		timer = 0f;
-		recipe.FillRecipe();
-		updateUI();
-		playMinigame(recipe.ingredients[curMinigame]);
-        timerCutoff = 60f;
-        timerLimit = 120f;
-	}
+    void StartGame()
+    {
+        curMinigame = 0;
+        timer = 0f;
+        recipe.FillRecipe();
+        updateUI();
+        playMinigame(recipe.ingredients[curMinigame]);
+        timerCutoff = 30f;
+        timerLimit = 60f;
+    }
 
-	void updateUI() {
-		Game1Image.sprite = recipe.ingredients[0].GetComponent<SpriteRenderer>().sprite;
-		Game2Image.sprite = recipe.ingredients[1].GetComponent<SpriteRenderer>().sprite;
-		Game3Image.sprite = recipe.ingredients[2].GetComponent<SpriteRenderer>().sprite;
+    void updateUI() {
+        Game1Image.sprite = recipe.ingredients[0].GetComponent<SpriteRenderer>().sprite;
+        Game2Image.sprite = recipe.ingredients[1].GetComponent<SpriteRenderer>().sprite;
+        Game3Image.sprite = recipe.ingredients[2].GetComponent<SpriteRenderer>().sprite;
 
-		stepArrow1.color = recipe.colors[0];
-		stepArrow2.color = recipe.colors[1];
-		stepArrow3.color = recipe.colors[2];
-	}
+        stepArrow1.color = recipe.colors[0];
+        stepArrow2.color = recipe.colors[1];
+        stepArrow3.color = recipe.colors[2];
+    }
 
-	public void EndPotion()
-	{
+    public void EndPotion()
+    {
         Time.timeScale = 1;
-		for(int c = 0; c < 3; c++)
-		{
-			potionScore += recipe.ingredients[c].percentageGrade;
-		}
-		potionScore /= 3;
+        for (int c = 0; c < 3; c++)
+        {
+            potionScore += recipe.ingredients[c].percentageGrade;
+        }
+        potionScore /= 3;
         potionScore *= mixingScore;
-		if(timer > timerCutoff)
-		{
-			float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
-			if(temp < 0)
-			{
-				temp = 0;
-			}
-			if(temp > 1)
-			{
-				temp = 1;
-			}
-			potionScore *= temp;
-		}
-		scores[curPotion] = potionScore;
-		curPotion++;
-		scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
+        if (timer > timerCutoff)
+        {
+            float temp = (timerLimit - timer) / (timerLimit - timerCutoff);
+            if (temp < 0)
+            {
+                temp = 0;
+            }
+            if (temp > 1)
+            {
+                temp = 1;
+            }
+            potionScore *= temp;
+        }
+        scores[curPotion] = potionScore;
+        curPotion++;
+        scoreText.text = "Last Potion Score: " + (int)(potionScore * 100) + "%";
         potionScore = 0f;
-		if (curPotion == 3)
-		{
-			float finalTotal = 0;
-			foreach(float f in scores)
-			{
-				finalTotal += f;
-			}
-			finalTotal /= 3;
-			EndSceneManager.score = finalTotal;
-			SceneManager.LoadScene("EndScene");
-		}
-		else
-		{
-			StartGame();
-		}
-	}
+        if (curPotion == 5)
+        {
+            float finalTotal = 0;
 
-	// Update is called once per frame
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			Pause();
-		}
-		timer += Time.deltaTime;
-		timeText.text = "Time: " + (int)timer;
-		//checkGameState();
-		//Debug.Log(paused);
-	}
+            foreach (float f in scores)
+            {
+                finalTotal += f;
+            }
+            finalTotal /= 5;
+            EndSceneManager.score = finalTotal;
+            SceneManager.LoadScene("EndScene");
+        }
+        else
+        {
+            StartGame();
+        }
+    }
 
-	public static void Pause()
-	{
-		if (paused)
-		{
-			Time.timeScale = 1;
-			GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
-			GameObject.Find("UI").GetComponent<Canvas>().enabled = true;
-		}
-		else
-		{
-			Time.timeScale = 0;
-			GameObject.Find("Canvas").GetComponent<Canvas>().enabled = true;
-			GameObject.Find("UI").GetComponent<Canvas>().enabled = false;
-		}
-		paused = !paused;
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+        timer += Time.deltaTime;
+        timeText.text = "Time: " + (int)timer;
+        //checkGameState();
+        //Debug.Log(paused);
+    }
+
+    public static void Pause()
+    {
+        if (paused)
+        {
+            GameObject.Find("GameManager").GetComponent<AudioSource>().UnPause();
+            Time.timeScale = 1;
+            GameObject.Find("Canvas").GetComponent<Canvas>().enabled = false;
+            GameObject.Find("UI").GetComponent<Canvas>().enabled = true;
+        }
+        else
+        {
+            GameObject.Find("GameManager").GetComponent<AudioSource>().Pause();
+            Time.timeScale = 0;
+            GameObject.Find("Canvas").GetComponent<Canvas>().enabled = true;
+            GameObject.Find("UI").GetComponent<Canvas>().enabled = false;
+        }
+        paused = !paused;
+    }
 
 	//void checkGameState() {
 	//	if (Input.GetKeyDown(KeyCode.Alpha1)) state = MiniGameState.Minigame1;
